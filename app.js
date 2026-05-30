@@ -183,7 +183,7 @@ async function sendLoginLink() {
     },
   });
 
-  setSyncStatus(result.error ? "送信失敗" : "メールを確認");
+  setSyncStatus(result.error ? `送信失敗: ${result.error.message}` : "メールを確認");
 }
 
 async function signOutCloud() {
@@ -214,7 +214,7 @@ async function saveCloudEntries(showResult) {
     updated_at: new Date().toISOString(),
   });
 
-  setSyncStatus(result.error ? "保存失敗" : "同期済み");
+  setSyncStatus(result.error ? `保存失敗: ${result.error.message}` : "同期済み");
 }
 
 async function loadCloudEntries(confirmReplace) {
@@ -227,7 +227,7 @@ async function loadCloudEntries(confirmReplace) {
   const result = await supabaseClient.from(cloudTableName).select("entries, updated_at").eq("user_id", currentUser.id).maybeSingle();
 
   if (result.error) {
-    setSyncStatus("読込失敗");
+    setSyncStatus(`読込失敗: ${result.error.message}`);
     return;
   }
 
