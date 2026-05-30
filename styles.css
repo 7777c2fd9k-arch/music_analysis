@@ -297,6 +297,10 @@ textarea:focus {
   width: 100%;
 }
 
+.google-button {
+  width: 100%;
+}
+
 .entry-list {
   display: grid;
   gap: 10px;

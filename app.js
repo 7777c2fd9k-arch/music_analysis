@@ -186,6 +186,18 @@ async function sendLoginLink() {
   setSyncStatus(result.error ? `送信失敗: ${result.error.message}` : "メールを確認");
 }
 
+async function signInWithGoogle() {
+  if (!supabaseClient) return;
+  setSyncStatus("Googleへ移動");
+  const result = await supabaseClient.auth.signInWithOAuth({
+    provider: "google",
+    options: {
+      redirectTo: window.location.href,
+    },
+  });
+  if (result.error) setSyncStatus(`Google失敗: ${result.error.message}`);
+}
+
 async function signOutCloud() {
   if (!supabaseClient) return;
   await supabaseClient.auth.signOut();
@@ -557,6 +569,7 @@ function runTouchAction(event) {
   if (ordinaryButton.id === "deleteButton") deleteSelected();
   if (ordinaryButton.id === "tableCsvExportButton") exportCsv();
   if (ordinaryButton.id === "exportButton") exportEntries();
+  if (ordinaryButton.id === "googleLoginButton") signInWithGoogle();
   if (ordinaryButton.id === "syncLoginButton") sendLoginLink();
   if (ordinaryButton.id === "cloudSaveButton") saveCloudEntries(true);
   if (ordinaryButton.id === "cloudLoadButton") loadCloudEntries(true);
@@ -885,6 +898,9 @@ document.querySelector("#exportButton").addEventListener("click", () => {
 document.querySelector("#importInput").addEventListener("change", importEntries);
 document.querySelector("#syncLoginButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) sendLoginLink();
+});
+document.querySelector("#googleLoginButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) signInWithGoogle();
 });
 document.querySelector("#cloudSaveButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) saveCloudEntries(true);
