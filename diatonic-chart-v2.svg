@@ -1,0 +1,255 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="938" height="800" viewBox="0 0 938 800" role="img" aria-labelledby="title desc">
+  <title id="title">メジャーキー3和音</title>
+  <desc id="desc">各メジャーキーのダイアトニックコードを示した表。IIIm列はトニックとドミナントの二色背景。</desc>
+  <rect width="100%" height="100%" fill="#fbfaf6"/>
+  <style>text{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,&quot;Hiragino Sans&quot;,&quot;Yu Gothic&quot;,sans-serif;fill:#17201c}.title{font-size:34px;font-weight:900}.sub{font-size:18px;fill:#66736d}.headText{font-size:25px;font-weight:900}.keyText{font-size:21px;font-weight:900}.cellText{font-size:24px;font-weight:850}.legendText{font-size:18px;font-weight:800}.noteText{font-size:16px;fill:#35423c}.line{stroke:#17201c;stroke-width:1}</style>
+  <text x="34" y="42" class="title">メジャーキー3和音</text>
+  <text x="34" y="72" class="sub">各メジャーキーのダイアトニックコード</text>
+  <rect x="34" y="90" width="870" height="636" fill="#fff" stroke="#17201c" stroke-width="2"/>
+  <rect x="162" y="90" width="106" height="60" fill="#fff"/>
+  <text x="215" y="128" text-anchor="middle" class="headText">I</text>
+  <rect x="268" y="90" width="106" height="60" fill="#fff"/>
+  <text x="321" y="128" text-anchor="middle" class="headText">IIm</text>
+  <rect x="374" y="90" width="53" height="60" fill="#dcf5d6"/>
+  <rect x="427" y="90" width="53" height="60" fill="#f7d6d2"/>
+  <text x="427" y="128" text-anchor="middle" class="headText">IIIm</text>
+  <rect x="480" y="90" width="106" height="60" fill="#fff"/>
+  <text x="533" y="128" text-anchor="middle" class="headText">IV</text>
+  <rect x="586" y="90" width="106" height="60" fill="#fff"/>
+  <text x="639" y="128" text-anchor="middle" class="headText">V</text>
+  <rect x="692" y="90" width="106" height="60" fill="#fff"/>
+  <text x="745" y="128" text-anchor="middle" class="headText">VIm</text>
+  <rect x="798" y="90" width="106" height="60" fill="#fff"/>
+  <text x="851" y="128" text-anchor="middle" class="headText">VIIm-5</text>
+  <rect x="34" y="150" width="128" height="48" fill="#fff"/>
+  <text x="48" y="182" class="keyText">キーC</text>
+  <rect x="162" y="150" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="182" text-anchor="middle" class="cellText">C</text>
+  <rect x="268" y="150" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="182" text-anchor="middle" class="cellText">Dm</text>
+  <rect x="374" y="150" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="150" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="182" text-anchor="middle" class="cellText">Em</text>
+  <rect x="480" y="150" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="182" text-anchor="middle" class="cellText">F</text>
+  <rect x="586" y="150" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="182" text-anchor="middle" class="cellText">G</text>
+  <rect x="692" y="150" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="182" text-anchor="middle" class="cellText">Am</text>
+  <rect x="798" y="150" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="182" text-anchor="middle" class="cellText">Bm-5</text>
+  <rect x="34" y="198" width="128" height="48" fill="#fff"/>
+  <text x="48" y="230" class="keyText">キーD♭</text>
+  <rect x="162" y="198" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="230" text-anchor="middle" class="cellText">D♭</text>
+  <rect x="268" y="198" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="230" text-anchor="middle" class="cellText">E♭m</text>
+  <rect x="374" y="198" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="198" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="230" text-anchor="middle" class="cellText">Fm</text>
+  <rect x="480" y="198" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="230" text-anchor="middle" class="cellText">G♭</text>
+  <rect x="586" y="198" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="230" text-anchor="middle" class="cellText">A♭</text>
+  <rect x="692" y="198" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="230" text-anchor="middle" class="cellText">B♭m</text>
+  <rect x="798" y="198" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="230" text-anchor="middle" class="cellText">Cm-5</text>
+  <rect x="34" y="246" width="128" height="48" fill="#fff"/>
+  <text x="48" y="278" class="keyText">キーD</text>
+  <rect x="162" y="246" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="278" text-anchor="middle" class="cellText">D</text>
+  <rect x="268" y="246" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="278" text-anchor="middle" class="cellText">Em</text>
+  <rect x="374" y="246" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="246" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="278" text-anchor="middle" class="cellText">F#m</text>
+  <rect x="480" y="246" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="278" text-anchor="middle" class="cellText">G</text>
+  <rect x="586" y="246" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="278" text-anchor="middle" class="cellText">A</text>
+  <rect x="692" y="246" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="278" text-anchor="middle" class="cellText">Bm</text>
+  <rect x="798" y="246" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="278" text-anchor="middle" class="cellText">C#m-5</text>
+  <rect x="34" y="294" width="128" height="48" fill="#fff"/>
+  <text x="48" y="326" class="keyText">キーE♭</text>
+  <rect x="162" y="294" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="326" text-anchor="middle" class="cellText">E♭</text>
+  <rect x="268" y="294" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="326" text-anchor="middle" class="cellText">Fm</text>
+  <rect x="374" y="294" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="294" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="326" text-anchor="middle" class="cellText">Gm</text>
+  <rect x="480" y="294" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="326" text-anchor="middle" class="cellText">A♭</text>
+  <rect x="586" y="294" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="326" text-anchor="middle" class="cellText">B♭</text>
+  <rect x="692" y="294" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="326" text-anchor="middle" class="cellText">Cm</text>
+  <rect x="798" y="294" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="326" text-anchor="middle" class="cellText">Dm-5</text>
+  <rect x="34" y="342" width="128" height="48" fill="#fff"/>
+  <text x="48" y="374" class="keyText">キーE</text>
+  <rect x="162" y="342" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="374" text-anchor="middle" class="cellText">E</text>
+  <rect x="268" y="342" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="374" text-anchor="middle" class="cellText">F#m</text>
+  <rect x="374" y="342" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="342" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="374" text-anchor="middle" class="cellText">G#m</text>
+  <rect x="480" y="342" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="374" text-anchor="middle" class="cellText">A</text>
+  <rect x="586" y="342" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="374" text-anchor="middle" class="cellText">B</text>
+  <rect x="692" y="342" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="374" text-anchor="middle" class="cellText">C#m</text>
+  <rect x="798" y="342" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="374" text-anchor="middle" class="cellText">D#m-5</text>
+  <rect x="34" y="390" width="128" height="48" fill="#fff"/>
+  <text x="48" y="422" class="keyText">キーF</text>
+  <rect x="162" y="390" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="422" text-anchor="middle" class="cellText">F</text>
+  <rect x="268" y="390" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="422" text-anchor="middle" class="cellText">Gm</text>
+  <rect x="374" y="390" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="390" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="422" text-anchor="middle" class="cellText">Am</text>
+  <rect x="480" y="390" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="422" text-anchor="middle" class="cellText">B♭</text>
+  <rect x="586" y="390" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="422" text-anchor="middle" class="cellText">C</text>
+  <rect x="692" y="390" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="422" text-anchor="middle" class="cellText">Dm</text>
+  <rect x="798" y="390" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="422" text-anchor="middle" class="cellText">Em-5</text>
+  <rect x="34" y="438" width="128" height="48" fill="#fff"/>
+  <text x="48" y="470" class="keyText">キーF#</text>
+  <rect x="162" y="438" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="470" text-anchor="middle" class="cellText">F#</text>
+  <rect x="268" y="438" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="470" text-anchor="middle" class="cellText">G#m</text>
+  <rect x="374" y="438" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="438" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="470" text-anchor="middle" class="cellText">A#m</text>
+  <rect x="480" y="438" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="470" text-anchor="middle" class="cellText">B</text>
+  <rect x="586" y="438" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="470" text-anchor="middle" class="cellText">C#</text>
+  <rect x="692" y="438" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="470" text-anchor="middle" class="cellText">D#m</text>
+  <rect x="798" y="438" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="470" text-anchor="middle" class="cellText">E#m-5</text>
+  <rect x="34" y="486" width="128" height="48" fill="#fff"/>
+  <text x="48" y="518" class="keyText">キーG</text>
+  <rect x="162" y="486" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="518" text-anchor="middle" class="cellText">G</text>
+  <rect x="268" y="486" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="518" text-anchor="middle" class="cellText">Am</text>
+  <rect x="374" y="486" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="486" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="518" text-anchor="middle" class="cellText">Bm</text>
+  <rect x="480" y="486" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="518" text-anchor="middle" class="cellText">C</text>
+  <rect x="586" y="486" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="518" text-anchor="middle" class="cellText">D</text>
+  <rect x="692" y="486" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="518" text-anchor="middle" class="cellText">Em</text>
+  <rect x="798" y="486" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="518" text-anchor="middle" class="cellText">F#m-5</text>
+  <rect x="34" y="534" width="128" height="48" fill="#fff"/>
+  <text x="48" y="566" class="keyText">キーA♭</text>
+  <rect x="162" y="534" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="566" text-anchor="middle" class="cellText">A♭</text>
+  <rect x="268" y="534" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="566" text-anchor="middle" class="cellText">B♭m</text>
+  <rect x="374" y="534" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="534" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="566" text-anchor="middle" class="cellText">Cm</text>
+  <rect x="480" y="534" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="566" text-anchor="middle" class="cellText">D♭</text>
+  <rect x="586" y="534" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="566" text-anchor="middle" class="cellText">E♭</text>
+  <rect x="692" y="534" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="566" text-anchor="middle" class="cellText">Fm</text>
+  <rect x="798" y="534" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="566" text-anchor="middle" class="cellText">Gm-5</text>
+  <rect x="34" y="582" width="128" height="48" fill="#fff"/>
+  <text x="48" y="614" class="keyText">キーA</text>
+  <rect x="162" y="582" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="614" text-anchor="middle" class="cellText">A</text>
+  <rect x="268" y="582" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="614" text-anchor="middle" class="cellText">Bm</text>
+  <rect x="374" y="582" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="582" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="614" text-anchor="middle" class="cellText">C#m</text>
+  <rect x="480" y="582" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="614" text-anchor="middle" class="cellText">D</text>
+  <rect x="586" y="582" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="614" text-anchor="middle" class="cellText">E</text>
+  <rect x="692" y="582" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="614" text-anchor="middle" class="cellText">F#m</text>
+  <rect x="798" y="582" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="614" text-anchor="middle" class="cellText">G#m-5</text>
+  <rect x="34" y="630" width="128" height="48" fill="#fff"/>
+  <text x="48" y="662" class="keyText">キーB♭</text>
+  <rect x="162" y="630" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="662" text-anchor="middle" class="cellText">B♭</text>
+  <rect x="268" y="630" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="662" text-anchor="middle" class="cellText">Cm</text>
+  <rect x="374" y="630" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="630" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="662" text-anchor="middle" class="cellText">Dm</text>
+  <rect x="480" y="630" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="662" text-anchor="middle" class="cellText">E♭</text>
+  <rect x="586" y="630" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="662" text-anchor="middle" class="cellText">F</text>
+  <rect x="692" y="630" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="662" text-anchor="middle" class="cellText">Gm</text>
+  <rect x="798" y="630" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="662" text-anchor="middle" class="cellText">Am-5</text>
+  <rect x="34" y="678" width="128" height="48" fill="#fff"/>
+  <text x="48" y="710" class="keyText">キーB</text>
+  <rect x="162" y="678" width="106" height="48" fill="#dcf5d6"/>
+  <text x="215" y="710" text-anchor="middle" class="cellText">B</text>
+  <rect x="268" y="678" width="106" height="48" fill="#dbe6fb"/>
+  <text x="321" y="710" text-anchor="middle" class="cellText">C#m</text>
+  <rect x="374" y="678" width="53" height="48" fill="#dcf5d6"/>
+  <rect x="427" y="678" width="53" height="48" fill="#f7d6d2"/>
+  <text x="427" y="710" text-anchor="middle" class="cellText">D#m</text>
+  <rect x="480" y="678" width="106" height="48" fill="#dbe6fb"/>
+  <text x="533" y="710" text-anchor="middle" class="cellText">E</text>
+  <rect x="586" y="678" width="106" height="48" fill="#f7d6d2"/>
+  <text x="639" y="710" text-anchor="middle" class="cellText">F#</text>
+  <rect x="692" y="678" width="106" height="48" fill="#dcf5d6"/>
+  <text x="745" y="710" text-anchor="middle" class="cellText">G#m</text>
+  <rect x="798" y="678" width="106" height="48" fill="#f7d6d2"/>
+  <text x="851" y="710" text-anchor="middle" class="cellText">A#m-5</text>
+  <line x1="34" y1="150" x2="904" y2="150" class="line"/>
+  <line x1="34" y1="198" x2="904" y2="198" class="line"/>
+  <line x1="34" y1="246" x2="904" y2="246" class="line"/>
+  <line x1="34" y1="294" x2="904" y2="294" class="line"/>
+  <line x1="34" y1="342" x2="904" y2="342" class="line"/>
+  <line x1="34" y1="390" x2="904" y2="390" class="line"/>
+  <line x1="34" y1="438" x2="904" y2="438" class="line"/>
+  <line x1="34" y1="486" x2="904" y2="486" class="line"/>
+  <line x1="34" y1="534" x2="904" y2="534" class="line"/>
+  <line x1="34" y1="582" x2="904" y2="582" class="line"/>
+  <line x1="34" y1="630" x2="904" y2="630" class="line"/>
+  <line x1="34" y1="678" x2="904" y2="678" class="line"/>
+  <line x1="34" y1="726" x2="904" y2="726" class="line"/>
+  <line x1="34" y1="90" x2="34" y2="726" class="line"/>
+  <line x1="162" y1="90" x2="162" y2="726" class="line"/>
+  <line x1="268" y1="90" x2="268" y2="726" class="line"/>
+  <line x1="374" y1="90" x2="374" y2="726" class="line"/>
+  <line x1="480" y1="90" x2="480" y2="726" class="line"/>
+  <line x1="586" y1="90" x2="586" y2="726" class="line"/>
+  <line x1="692" y1="90" x2="692" y2="726" class="line"/>
+  <line x1="798" y1="90" x2="798" y2="726" class="line"/>
+  <line x1="904" y1="90" x2="904" y2="726" class="line"/>
+  <rect x="34" y="744" width="22" height="22" fill="#dcf5d6"/><text x="68" y="762" class="legendText">トニック</text>
+  <rect x="194" y="744" width="22" height="22" fill="#dbe6fb"/><text x="228" y="762" class="legendText">サブドミナント</text>
+  <rect x="414" y="744" width="22" height="22" fill="#f7d6d2"/><text x="448" y="762" class="legendText">ドミナント</text>
+  <rect x="590" y="744" width="11" height="22" fill="#dcf5d6"/><rect x="601" y="744" width="11" height="22" fill="#f7d6d2"/><text x="624" y="762" class="legendText">IIIm</text>
+  <text x="724" y="762" class="noteText">IIImはトニック・ドミナントどちらかで解釈されることがあります。</text>
+</svg>
