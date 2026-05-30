@@ -35,6 +35,7 @@ const state = {
   entries: loadEntries(),
   selectedId: null,
   filter: "all",
+  tagFilter: "",
   query: "",
   view: "detail",
   sort: "songKey",
@@ -49,6 +50,7 @@ const tableWrap = document.querySelector(".table-wrap");
 const analysisTable = document.querySelector(".analysis-table");
 const tableZoom = document.querySelector("#tableZoom");
 const zoomValue = document.querySelector("#zoomValue");
+const tagFilterSelect = document.querySelector("#tagFilterSelect");
 const syncStatus = document.querySelector("#syncStatus");
 const syncLoginControls = document.querySelector("#syncLoginControls");
 const syncUserControls = document.querySelector("#syncUserControls");
@@ -295,6 +297,7 @@ function filteredEntries() {
         const updated = new Date(entry.updatedAt || 0).getTime();
         if ((now - updated) / 86400000 > 14) return false;
       }
+      if (state.tagFilter && !(entry.tags || []).includes(state.tagFilter)) return false;
       if (!query) return true;
       return [
         entry.title,
@@ -336,6 +339,7 @@ function render() {
   if (!state.selectedId && state.entries.length) state.selectedId = state.entries[0].id;
   const selected = getSelectedEntry();
   renderStats();
+  renderTagFilter();
   renderList();
   renderTable();
   fillForm(selected);
@@ -348,6 +352,19 @@ function renderStats() {
   const tags = new Set(state.entries.flatMap((entry) => entry.tags || []));
   document.querySelector("#entryCount").textContent = state.entries.length;
   document.querySelector("#tagCount").textContent = tags.size;
+}
+
+function renderTagFilter() {
+  const tags = [...new Set(state.entries.flatMap((entry) => entry.tags || []))].sort((a, b) => a.localeCompare(b, "ja"));
+  if (state.tagFilter && !tags.includes(state.tagFilter)) state.tagFilter = "";
+  tagFilterSelect.innerHTML = '<option value="">すべてのタグ</option>';
+  tags.forEach((tag) => {
+    const option = document.createElement("option");
+    option.value = tag;
+    option.textContent = tag;
+    option.selected = tag === state.tagFilter;
+    tagFilterSelect.append(option);
+  });
 }
 
 function renderList() {
@@ -386,7 +403,7 @@ function renderTable() {
   const entries = sortedEntries(filteredEntries());
   tableBody.innerHTML = "";
   if (!entries.length) {
-    tableBody.innerHTML = '<tr><td colspan="11" class="empty-state">条件に合う分析がありません。</td></tr>';
+    tableBody.innerHTML = '<tr><td colspan="12" class="empty-state">条件に合う分析がありません。</td></tr>';
     return;
   }
 
@@ -397,7 +414,7 @@ function renderTable() {
       currentGroup = group;
       const groupRow = document.createElement("tr");
       groupRow.className = "group-row";
-      groupRow.innerHTML = `<td colspan="11">${escapeHtml(group)}</td>`;
+      groupRow.innerHTML = `<td colspan="12">${escapeHtml(group)}</td>`;
       tableBody.append(groupRow);
     }
 
@@ -410,6 +427,7 @@ function renderTable() {
       <td>${entry.bpm ? `${escapeHtml(entry.bpm)} BPM` : '<span class="muted-cell">未入力</span>'}</td>
       <td>${entry.songKey ? escapeHtml(entry.songKey) : '<span class="muted-cell">未入力</span>'}</td>
       <td class="table-url">${formatUrlCell(entry.trackUrl)}</td>
+      <td>${formatTagsCell(entry.tags)}</td>
       <td class="table-note">${formatCell(entry.intro)}</td>
       <td class="table-note">${formatCell(entry.verseA)}</td>
       <td class="table-note">${formatCell(entry.verseB)}</td>
@@ -426,6 +444,11 @@ function groupLabel(entry) {
   if (state.sort === "title") return entry.title || "曲名未入力";
   if (state.sort === "artist") return entry.artist || "アーティスト未入力";
   return "";
+}
+
+function formatTagsCell(tags) {
+  if (!tags || !tags.length) return '<span class="muted-cell">未入力</span>';
+  return `<div class="tag-list">${tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>`;
 }
 
 function formatCell(value) {
@@ -874,6 +897,12 @@ document.querySelectorAll("[data-view]").forEach((button) => {
 
 document.querySelector("#sortSelect").addEventListener("change", (event) => {
   changeSort(event.target.value);
+});
+
+tagFilterSelect.addEventListener("change", (event) => {
+  state.tagFilter = event.target.value;
+  renderList();
+  renderTable();
 });
 
 tableZoom.addEventListener("input", (event) => setTableZoom(event.target.value));

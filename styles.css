@@ -677,6 +677,15 @@ canvas {
   background: rgba(255, 255, 255, 0.78);
 }
 
+.tag-filter-control {
+  grid-template-columns: auto minmax(160px, 240px);
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
 .zoom-tools {
   display: flex;
   align-items: center;
@@ -722,7 +731,7 @@ canvas {
 
 .analysis-table {
   width: 100%;
-  min-width: 1820px;
+  min-width: 1960px;
   border-collapse: separate;
   border-spacing: 0;
   font-size: 13px;
@@ -782,6 +791,10 @@ canvas {
 
 .analysis-table .table-url {
   min-width: 86px;
+}
+
+.analysis-table .tag-list {
+  min-width: 150px;
 }
 
 .analysis-table a,
@@ -1133,6 +1146,14 @@ canvas {
   .zoom-control {
     grid-template-columns: 1fr;
     min-width: 0;
+  }
+
+  .tag-filter-control {
+    grid-template-columns: 1fr;
+  }
+
+  .tag-filter-control select {
+    width: 100%;
   }
 
   .zoom-control input {

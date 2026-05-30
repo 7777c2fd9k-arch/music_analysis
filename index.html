@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>楽曲分析ノート</title>
-    <link rel="stylesheet" href="./styles.css?v=20260530-compact-sync" />
+    <link rel="stylesheet" href="./styles.css?v=20260530-tag-filter" />
   </head>
   <body>
     <main class="app-shell">
@@ -178,6 +178,12 @@
 
         <section id="tableMode" class="table-panel is-hidden" aria-label="分析表">
           <div class="table-nav" aria-label="表の表示調整">
+            <label class="tag-filter-control">
+              タグで絞り込み
+              <select id="tagFilterSelect">
+                <option value="">すべてのタグ</option>
+              </select>
+            </label>
             <div class="zoom-tools">
               <button id="zoomOutButton" class="icon-button" type="button" title="縮小" aria-label="縮小">−</button>
               <label class="zoom-control">
@@ -197,6 +203,7 @@
                   <th>BPM</th>
                   <th>キー</th>
                   <th>URL</th>
+                  <th>タグ</th>
                   <th>イントロ</th>
                   <th>Aメロ</th>
                   <th>Bメロ</th>
@@ -242,6 +249,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
-    <script src="./app.js?v=20260530-compact-sync"></script>
+    <script src="./app.js?v=20260530-tag-filter"></script>
   </body>
 </html>
