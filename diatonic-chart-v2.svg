@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="938" height="800" viewBox="0 0 938 800" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="938" height="740" viewBox="0 0 938 740" role="img" aria-labelledby="title desc">
   <title id="title">メジャーキー3和音</title>
   <desc id="desc">各メジャーキーのダイアトニックコードを示した表。IIIm列のコード欄はトニックとドミナントの二色背景。</desc>
   <rect width="100%" height="100%" fill="#fbfaf6"/>
@@ -246,7 +246,4 @@
   <line x1="692" y1="90" x2="692" y2="726" class="line"/>
   <line x1="798" y1="90" x2="798" y2="726" class="line"/>
   <line x1="904" y1="90" x2="904" y2="726" class="line"/>
-  <rect x="34" y="744" width="22" height="22" fill="#dcf5d6"/><text x="68" y="762" class="legendText">トニック</text>
-  <rect x="194" y="744" width="22" height="22" fill="#dbe6fb"/><text x="228" y="762" class="legendText">サブドミナント</text>
-  <rect x="414" y="744" width="22" height="22" fill="#f7d6d2"/><text x="448" y="762" class="legendText">ドミナント</text>
 </svg>
