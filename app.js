@@ -1,4 +1,5 @@
 const storageKey = "music-analysis-notes-v2";
+const cloudTableName = "music_analysis_notes";
 
 function createId() {
   if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -48,10 +49,19 @@ const tableWrap = document.querySelector(".table-wrap");
 const analysisTable = document.querySelector(".analysis-table");
 const tableZoom = document.querySelector("#tableZoom");
 const zoomValue = document.querySelector("#zoomValue");
+const syncStatus = document.querySelector("#syncStatus");
+const syncLoginControls = document.querySelector("#syncLoginControls");
+const syncUserControls = document.querySelector("#syncUserControls");
+const syncEmail = document.querySelector("#syncEmail");
+const syncUserEmail = document.querySelector("#syncUserEmail");
 const canvas = document.querySelector("#fingerprintCanvas");
 const ctx = canvas.getContext("2d");
 let tableDrag = null;
 let lastTouchActionAt = 0;
+let supabaseClient = null;
+let currentUser = null;
+let cloudSaveTimer = null;
+let isCloudReady = false;
 
 function loadEntries() {
   const current = localStorage.getItem(storageKey);
@@ -97,6 +107,147 @@ function convertLegacyEntry(entry) {
 
 function persist() {
   localStorage.setItem(storageKey, JSON.stringify(state.entries));
+  queueCloudSave();
+}
+
+function getSupabaseConfig() {
+  const config = window.MUSIC_ANALYSIS_SUPABASE || {};
+  return {
+    url: String(config.url || "").trim(),
+    anonKey: String(config.anonKey || "").trim(),
+  };
+}
+
+function setSyncStatus(message) {
+  syncStatus.textContent = message;
+}
+
+function updateSyncUi() {
+  if (!isCloudReady) {
+    syncLoginControls.classList.add("is-hidden");
+    syncUserControls.classList.add("is-hidden");
+    setSyncStatus("未設定");
+    return;
+  }
+
+  if (currentUser) {
+    syncLoginControls.classList.add("is-hidden");
+    syncUserControls.classList.remove("is-hidden");
+    syncUserEmail.textContent = currentUser.email || "ログイン中";
+    setSyncStatus("同期できます");
+    return;
+  }
+
+  syncLoginControls.classList.remove("is-hidden");
+  syncUserControls.classList.add("is-hidden");
+  setSyncStatus("未ログイン");
+}
+
+async function initCloudSync() {
+  const config = getSupabaseConfig();
+  if (!config.url || !config.anonKey || !window.supabase || typeof window.supabase.createClient !== "function") {
+    isCloudReady = false;
+    updateSyncUi();
+    return;
+  }
+
+  isCloudReady = true;
+  supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+
+  const sessionResult = await supabaseClient.auth.getSession();
+  currentUser = sessionResult.data && sessionResult.data.session ? sessionResult.data.session.user : null;
+  updateSyncUi();
+
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    currentUser = session ? session.user : null;
+    updateSyncUi();
+    if (event === "SIGNED_IN") loadCloudEntries(true);
+  });
+
+  if (currentUser) loadCloudEntries(false);
+}
+
+async function sendLoginLink() {
+  if (!supabaseClient) return;
+  const email = syncEmail.value.trim();
+  if (!email) {
+    setSyncStatus("メールを入力");
+    return;
+  }
+
+  setSyncStatus("送信中");
+  const result = await supabaseClient.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: window.location.href,
+    },
+  });
+
+  setSyncStatus(result.error ? "送信失敗" : "メールを確認");
+}
+
+async function signOutCloud() {
+  if (!supabaseClient) return;
+  await supabaseClient.auth.signOut();
+  currentUser = null;
+  updateSyncUi();
+}
+
+function queueCloudSave() {
+  if (!supabaseClient || !currentUser) return;
+  window.clearTimeout(cloudSaveTimer);
+  cloudSaveTimer = window.setTimeout(() => {
+    saveCloudEntries(false);
+  }, 900);
+}
+
+async function saveCloudEntries(showResult) {
+  if (!supabaseClient || !currentUser) {
+    if (showResult) setSyncStatus("未ログイン");
+    return;
+  }
+
+  if (showResult) setSyncStatus("保存中");
+  const result = await supabaseClient.from(cloudTableName).upsert({
+    user_id: currentUser.id,
+    entries: state.entries,
+    updated_at: new Date().toISOString(),
+  });
+
+  setSyncStatus(result.error ? "保存失敗" : "同期済み");
+}
+
+async function loadCloudEntries(confirmReplace) {
+  if (!supabaseClient || !currentUser) {
+    setSyncStatus("未ログイン");
+    return;
+  }
+
+  setSyncStatus("読込中");
+  const result = await supabaseClient.from(cloudTableName).select("entries, updated_at").eq("user_id", currentUser.id).maybeSingle();
+
+  if (result.error) {
+    setSyncStatus("読込失敗");
+    return;
+  }
+
+  if (!result.data || !Array.isArray(result.data.entries)) {
+    await saveCloudEntries(false);
+    setSyncStatus("初期同期済み");
+    return;
+  }
+
+  const hasLocal = state.entries.length > 0;
+  if (confirmReplace && hasLocal && !confirm("クラウドの内容でこの端末の分析を置き換えますか？")) {
+    setSyncStatus("ローカル保持");
+    return;
+  }
+
+  state.entries = result.data.entries.map(convertLegacyEntry);
+  state.selectedId = state.entries[0] ? state.entries[0].id : null;
+  localStorage.setItem(storageKey, JSON.stringify(state.entries));
+  render();
+  setSyncStatus("読込済み");
 }
 
 function normalizeTags(value) {
@@ -406,6 +557,10 @@ function runTouchAction(event) {
   if (ordinaryButton.id === "deleteButton") deleteSelected();
   if (ordinaryButton.id === "tableCsvExportButton") exportCsv();
   if (ordinaryButton.id === "exportButton") exportEntries();
+  if (ordinaryButton.id === "syncLoginButton") sendLoginLink();
+  if (ordinaryButton.id === "cloudSaveButton") saveCloudEntries(true);
+  if (ordinaryButton.id === "cloudLoadButton") loadCloudEntries(true);
+  if (ordinaryButton.id === "syncLogoutButton") signOutCloud();
   if (ordinaryButton.id === "zoomOutButton") setTableZoom(Number(tableZoom.value) - 10);
   if (ordinaryButton.id === "zoomInButton") setTableZoom(Number(tableZoom.value) + 10);
   if (ordinaryButton.type === "submit") {
@@ -728,6 +883,19 @@ document.querySelector("#exportButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) exportEntries();
 });
 document.querySelector("#importInput").addEventListener("change", importEntries);
+document.querySelector("#syncLoginButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) sendLoginLink();
+});
+document.querySelector("#cloudSaveButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) saveCloudEntries(true);
+});
+document.querySelector("#cloudLoadButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) loadCloudEntries(true);
+});
+document.querySelector("#syncLogoutButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) signOutCloud();
+});
 
 setTableZoom(tableZoom.value);
 render();
+initCloudSync();

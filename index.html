@@ -34,6 +34,23 @@
           <button id="newEntryButton" class="primary-button" type="button">新規分析</button>
         </div>
 
+        <section class="sync-panel" aria-label="ログイン同期">
+          <div class="sync-header">
+            <strong>ログイン同期</strong>
+            <span id="syncStatus">未設定</span>
+          </div>
+          <div id="syncLoginControls" class="sync-login">
+            <input id="syncEmail" type="email" placeholder="メールアドレス" autocomplete="email" />
+            <button id="syncLoginButton" class="ghost-button" type="button">ログインリンク</button>
+          </div>
+          <div id="syncUserControls" class="sync-actions is-hidden">
+            <span id="syncUserEmail"></span>
+            <button id="cloudSaveButton" class="ghost-button compact-action" type="button">クラウドへ保存</button>
+            <button id="cloudLoadButton" class="ghost-button compact-action" type="button">クラウドから読込</button>
+            <button id="syncLogoutButton" class="ghost-button compact-action" type="button">ログアウト</button>
+          </div>
+        </section>
+
         <div id="entryList" class="entry-list" aria-live="polite"></div>
       </aside>
 
@@ -221,6 +238,8 @@
       </section>
     </main>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

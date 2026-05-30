@@ -258,6 +258,45 @@ textarea:focus {
   width: 100%;
 }
 
+.sync-panel {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.sync-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.sync-header strong {
+  font-size: 13px;
+}
+
+.sync-header span,
+#syncUserEmail {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.sync-login,
+.sync-actions {
+  display: grid;
+  gap: 8px;
+}
+
+.sync-login .ghost-button,
+.sync-actions .ghost-button {
+  width: 100%;
+}
+
 .entry-list {
   display: grid;
   gap: 10px;
