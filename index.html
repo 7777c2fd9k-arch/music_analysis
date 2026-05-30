@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>楽曲分析ノート</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="分析一覧">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+          </div>
+          <div>
+            <h1>楽曲分析ノート</h1>
+            <p>聴いたこと、気づいたこと、次に試したいこと。</p>
+          </div>
+        </div>
+
+        <div class="search-block">
+          <label for="searchInput">検索</label>
+          <input id="searchInput" type="search" placeholder="曲名、アーティスト、タグ、メモ" />
+        </div>
+
+        <div class="filter-row" aria-label="フィルター">
+          <button class="chip is-active" type="button" data-filter="all">すべて</button>
+          <button class="chip" type="button" data-filter="favorite">重要</button>
+          <button class="chip" type="button" data-filter="recent">最近</button>
+        </div>
+
+        <div class="toolbar">
+          <button id="newEntryButton" class="primary-button" type="button">新規分析</button>
+        </div>
+
+        <div id="entryList" class="entry-list" aria-live="polite"></div>
+      </aside>
+
+      <section class="workspace">
+        <header class="workspace-header">
+          <div>
+            <p class="eyebrow">Library</p>
+            <h2 id="workspaceTitle">分析を選ぶ</h2>
+          </div>
+          <div class="stats">
+            <div>
+              <span id="entryCount">0</span>
+              <small>曲</small>
+            </div>
+            <div>
+              <span id="tagCount">0</span>
+              <small>タグ</small>
+            </div>
+          </div>
+        </header>
+
+        <div class="workspace-tools">
+          <div class="segmented-control" aria-label="表示切り替え">
+            <button class="is-active" type="button" data-view="detail">詳細</button>
+            <button type="button" data-view="table">表</button>
+            <button type="button" data-view="capo">早見表</button>
+          </div>
+          <div class="table-tools">
+            <button id="tableCsvExportButton" class="ghost-button" type="button">表示中の表をCSV</button>
+            <label class="sort-control">
+              並び替え
+              <select id="sortSelect">
+                <option value="songKey">キー</option>
+                <option value="title">曲名</option>
+                <option value="artist">アーティスト</option>
+                <option value="bpm">BPM</option>
+                <option value="updatedAt">更新日</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div id="detailMode" class="content-grid">
+          <section class="editor-panel" aria-label="分析編集">
+            <form id="analysisForm">
+              <input id="entryId" type="hidden" />
+              <div class="form-top">
+                <label class="favorite-toggle">
+                  <input id="favorite" type="checkbox" />
+                  <span>重要</span>
+                </label>
+                <button id="deleteButton" class="ghost-button danger" type="button">削除</button>
+              </div>
+
+              <div class="field-grid">
+                <label>
+                  曲名
+                  <input id="title" required placeholder="例: Plastic Love" />
+                </label>
+                <label>
+                  アーティスト
+                  <input id="artist" placeholder="例: 竹内まりや" />
+                </label>
+                <label>
+                  BPM
+                  <input id="bpm" inputmode="numeric" placeholder="104" />
+                </label>
+                <label>
+                  曲のキー
+                  <input id="songKey" placeholder="例: F minor" />
+                </label>
+                <label>
+                  URL
+                  <input id="trackUrl" type="url" placeholder="https://..." />
+                </label>
+              </div>
+
+              <label>
+                タグ
+                <input id="tags" placeholder="city pop, syncopation, chorus lift" />
+              </label>
+
+              <label>
+                イントロ
+                <textarea id="intro" rows="3" placeholder="入り方、コード、音色、印象など"></textarea>
+              </label>
+              <label>
+                Aメロ
+                <textarea id="verseA" rows="3" placeholder="メロディ、歌詞、コード、リズムの特徴"></textarea>
+              </label>
+              <label>
+                Bメロ
+                <textarea id="verseB" rows="3" placeholder="サビへのつなぎ、展開、緊張感"></textarea>
+              </label>
+              <label>
+                サビ
+                <textarea id="chorus" rows="3" placeholder="フック、盛り上がり、コード、歌詞の着地点"></textarea>
+              </label>
+              <label>
+                備考
+                <textarea id="notes" rows="5" placeholder="全体の印象、気づき、参考にしたい点"></textarea>
+              </label>
+
+              <div class="form-actions">
+                <button class="primary-button" type="submit">保存</button>
+                <button id="exportButton" class="ghost-button compact-action" type="button">JSON書き出し</button>
+                <label class="ghost-button compact-action import-action">
+                  JSON読み込み
+                  <input id="importInput" type="file" accept="application/json" />
+                </label>
+                <span id="saveStatus" role="status"></span>
+              </div>
+            </form>
+          </section>
+
+          <section class="insight-panel" aria-label="分析ビュー">
+            <div class="visual-stage">
+              <canvas id="fingerprintCanvas" width="560" height="320" aria-label="分析スコアの視覚化"></canvas>
+            </div>
+            <div id="detailView" class="detail-view"></div>
+          </section>
+        </div>
+
+        <section id="tableMode" class="table-panel is-hidden" aria-label="分析表">
+          <div class="table-nav" aria-label="表の表示調整">
+            <div class="zoom-tools">
+              <button id="zoomOutButton" class="icon-button" type="button" title="縮小" aria-label="縮小">−</button>
+              <label class="zoom-control">
+                表示倍率
+                <input id="tableZoom" type="range" min="60" max="130" value="100" />
+              </label>
+              <button id="zoomInButton" class="icon-button" type="button" title="拡大" aria-label="拡大">＋</button>
+              <span id="zoomValue" class="zoom-value">100%</span>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="analysis-table">
+              <thead>
+                <tr>
+                  <th>曲名</th>
+                  <th>アーティスト</th>
+                  <th>BPM</th>
+                  <th>キー</th>
+                  <th>URL</th>
+                  <th>イントロ</th>
+                  <th>Aメロ</th>
+                  <th>Bメロ</th>
+                  <th>サビ</th>
+                  <th>備考</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="analysisTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="capoMode" class="table-panel is-hidden" aria-label="早見表">
+          <div class="reference-header">
+            <div>
+              <h3>カポ対応コード早見表</h3>
+              <p>鳴らしたい元のキーに対して、各カポ位置で押さえるコードフォームを表示します。</p>
+            </div>
+          </div>
+          <div class="reference-image-wrap">
+            <img src="./capo-chart.svg" alt="カポ対応コード早見表" />
+          </div>
+
+          <div class="reference-header reference-header-secondary">
+            <div>
+              <h3>メジャーキー3和音</h3>
+              <p>各メジャーキーのダイアトニックコードを、トニック、サブドミナント、ドミナントで色分けしています。</p>
+            </div>
+          </div>
+          <div class="reference-image-wrap">
+            <img src="./diatonic-chart.svg" alt="メジャーキー3和音のダイアトニック表" />
+          </div>
+          <div class="diatonic-legend" aria-label="機能の凡例">
+            <span><i class="legend-tonic"></i>トニック</span>
+            <span><i class="legend-subdominant"></i>サブドミナント</span>
+            <span><i class="legend-dominant"></i>ドミナント</span>
+            <small>IIImはトニック・ドミナントどちらかで解釈されることがあります。</small>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

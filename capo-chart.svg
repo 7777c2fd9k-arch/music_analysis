@@ -1,0 +1,362 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1294" height="710" viewBox="0 0 1294 710" role="img" aria-labelledby="title desc">
+  <title id="title">カポ対応コード早見表</title>
+  <desc id="desc">元のキーに対してカポ-2からカポ9までの押さえるコードフォームを示した表</desc>
+  <rect width="100%" height="100%" fill="#fbfaf6"/>
+  <style>text{font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,&quot;Hiragino Sans&quot;,&quot;Yu Gothic&quot;,sans-serif;fill:#17201c}.title{font-size:34px;font-weight:900}.sub{font-size:18px;fill:#66736d}.headText{fill:#fff;font-size:20px;font-weight:900}.rowHead{fill:#fff;font-size:25px;font-weight:900}.cellText{font-size:24px;font-weight:850}.line{stroke:#17201c;stroke-width:1}</style>
+  <text x="36" y="42" class="title">カポ対応コード早見表</text>
+  <text x="36" y="72" class="sub">鳴らしたい元のキーに対して、各カポ位置で押さえるコードフォームを表示</text>
+  <rect x="36" y="92" width="1222" height="582" fill="#fff" stroke="#17201c" stroke-width="2"/>
+  <rect x="36" y="92" width="1222" height="54" fill="#22332d"/>
+  <text x="95" y="127" text-anchor="middle" class="headText">元のキー</text>
+  <text x="200" y="127" text-anchor="middle" class="headText">カポ-2</text>
+  <text x="292" y="127" text-anchor="middle" class="headText">カポ-1</text>
+  <text x="384" y="127" text-anchor="middle" class="headText">カポ0</text>
+  <text x="476" y="127" text-anchor="middle" class="headText">カポ1</text>
+  <text x="568" y="127" text-anchor="middle" class="headText">カポ2</text>
+  <text x="660" y="127" text-anchor="middle" class="headText">カポ3</text>
+  <text x="752" y="127" text-anchor="middle" class="headText">カポ4</text>
+  <text x="844" y="127" text-anchor="middle" class="headText">カポ5</text>
+  <text x="936" y="127" text-anchor="middle" class="headText">カポ6</text>
+  <text x="1028" y="127" text-anchor="middle" class="headText">カポ7</text>
+  <text x="1120" y="127" text-anchor="middle" class="headText">カポ8</text>
+  <text x="1212" y="127" text-anchor="middle" class="headText">カポ9</text>
+  <rect x="36" y="146" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="176" text-anchor="middle" class="rowHead">C</text>
+  <rect x="154" y="146" width="92" height="44" fill="#fff"/>
+  <text x="200" y="176" text-anchor="middle" class="cellText">D</text>
+  <rect x="246" y="146" width="92" height="44" fill="#fff"/>
+  <text x="292" y="176" text-anchor="middle" class="cellText">C#</text>
+  <rect x="338" y="146" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="176" text-anchor="middle" class="cellText">C</text>
+  <rect x="430" y="146" width="92" height="44" fill="#fff"/>
+  <text x="476" y="176" text-anchor="middle" class="cellText">B</text>
+  <rect x="522" y="146" width="92" height="44" fill="#fff"/>
+  <text x="568" y="176" text-anchor="middle" class="cellText">A#</text>
+  <rect x="614" y="146" width="92" height="44" fill="#fff"/>
+  <text x="660" y="176" text-anchor="middle" class="cellText">A</text>
+  <rect x="706" y="146" width="92" height="44" fill="#fff"/>
+  <text x="752" y="176" text-anchor="middle" class="cellText">G#</text>
+  <rect x="798" y="146" width="92" height="44" fill="#fff"/>
+  <text x="844" y="176" text-anchor="middle" class="cellText">G</text>
+  <rect x="890" y="146" width="92" height="44" fill="#fff"/>
+  <text x="936" y="176" text-anchor="middle" class="cellText">F#</text>
+  <rect x="982" y="146" width="92" height="44" fill="#fff"/>
+  <text x="1028" y="176" text-anchor="middle" class="cellText">F</text>
+  <rect x="1074" y="146" width="92" height="44" fill="#fff"/>
+  <text x="1120" y="176" text-anchor="middle" class="cellText">E</text>
+  <rect x="1166" y="146" width="92" height="44" fill="#fff"/>
+  <text x="1212" y="176" text-anchor="middle" class="cellText">D#</text>
+  <rect x="36" y="190" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="220" text-anchor="middle" class="rowHead">C#</text>
+  <rect x="154" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="200" y="220" text-anchor="middle" class="cellText">D#</text>
+  <rect x="246" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="292" y="220" text-anchor="middle" class="cellText">D</text>
+  <rect x="338" y="190" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="220" text-anchor="middle" class="cellText">C#</text>
+  <rect x="430" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="476" y="220" text-anchor="middle" class="cellText">C</text>
+  <rect x="522" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="568" y="220" text-anchor="middle" class="cellText">B</text>
+  <rect x="614" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="660" y="220" text-anchor="middle" class="cellText">A#</text>
+  <rect x="706" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="752" y="220" text-anchor="middle" class="cellText">A</text>
+  <rect x="798" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="844" y="220" text-anchor="middle" class="cellText">G#</text>
+  <rect x="890" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="936" y="220" text-anchor="middle" class="cellText">G</text>
+  <rect x="982" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1028" y="220" text-anchor="middle" class="cellText">F#</text>
+  <rect x="1074" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1120" y="220" text-anchor="middle" class="cellText">F</text>
+  <rect x="1166" y="190" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1212" y="220" text-anchor="middle" class="cellText">E</text>
+  <rect x="36" y="234" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="264" text-anchor="middle" class="rowHead">D</text>
+  <rect x="154" y="234" width="92" height="44" fill="#fff"/>
+  <text x="200" y="264" text-anchor="middle" class="cellText">E</text>
+  <rect x="246" y="234" width="92" height="44" fill="#fff"/>
+  <text x="292" y="264" text-anchor="middle" class="cellText">D#</text>
+  <rect x="338" y="234" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="264" text-anchor="middle" class="cellText">D</text>
+  <rect x="430" y="234" width="92" height="44" fill="#fff"/>
+  <text x="476" y="264" text-anchor="middle" class="cellText">C#</text>
+  <rect x="522" y="234" width="92" height="44" fill="#fff"/>
+  <text x="568" y="264" text-anchor="middle" class="cellText">C</text>
+  <rect x="614" y="234" width="92" height="44" fill="#fff"/>
+  <text x="660" y="264" text-anchor="middle" class="cellText">B</text>
+  <rect x="706" y="234" width="92" height="44" fill="#fff"/>
+  <text x="752" y="264" text-anchor="middle" class="cellText">A#</text>
+  <rect x="798" y="234" width="92" height="44" fill="#fff"/>
+  <text x="844" y="264" text-anchor="middle" class="cellText">A</text>
+  <rect x="890" y="234" width="92" height="44" fill="#fff"/>
+  <text x="936" y="264" text-anchor="middle" class="cellText">G#</text>
+  <rect x="982" y="234" width="92" height="44" fill="#fff"/>
+  <text x="1028" y="264" text-anchor="middle" class="cellText">G</text>
+  <rect x="1074" y="234" width="92" height="44" fill="#fff"/>
+  <text x="1120" y="264" text-anchor="middle" class="cellText">F#</text>
+  <rect x="1166" y="234" width="92" height="44" fill="#fff"/>
+  <text x="1212" y="264" text-anchor="middle" class="cellText">F</text>
+  <rect x="36" y="278" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="308" text-anchor="middle" class="rowHead">D#</text>
+  <rect x="154" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="200" y="308" text-anchor="middle" class="cellText">F</text>
+  <rect x="246" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="292" y="308" text-anchor="middle" class="cellText">E</text>
+  <rect x="338" y="278" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="308" text-anchor="middle" class="cellText">D#</text>
+  <rect x="430" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="476" y="308" text-anchor="middle" class="cellText">D</text>
+  <rect x="522" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="568" y="308" text-anchor="middle" class="cellText">C#</text>
+  <rect x="614" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="660" y="308" text-anchor="middle" class="cellText">C</text>
+  <rect x="706" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="752" y="308" text-anchor="middle" class="cellText">B</text>
+  <rect x="798" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="844" y="308" text-anchor="middle" class="cellText">A#</text>
+  <rect x="890" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="936" y="308" text-anchor="middle" class="cellText">A</text>
+  <rect x="982" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1028" y="308" text-anchor="middle" class="cellText">G#</text>
+  <rect x="1074" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1120" y="308" text-anchor="middle" class="cellText">G</text>
+  <rect x="1166" y="278" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1212" y="308" text-anchor="middle" class="cellText">F#</text>
+  <rect x="36" y="322" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="352" text-anchor="middle" class="rowHead">E</text>
+  <rect x="154" y="322" width="92" height="44" fill="#fff"/>
+  <text x="200" y="352" text-anchor="middle" class="cellText">F#</text>
+  <rect x="246" y="322" width="92" height="44" fill="#fff"/>
+  <text x="292" y="352" text-anchor="middle" class="cellText">F</text>
+  <rect x="338" y="322" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="352" text-anchor="middle" class="cellText">E</text>
+  <rect x="430" y="322" width="92" height="44" fill="#fff"/>
+  <text x="476" y="352" text-anchor="middle" class="cellText">D#</text>
+  <rect x="522" y="322" width="92" height="44" fill="#fff"/>
+  <text x="568" y="352" text-anchor="middle" class="cellText">D</text>
+  <rect x="614" y="322" width="92" height="44" fill="#fff"/>
+  <text x="660" y="352" text-anchor="middle" class="cellText">C#</text>
+  <rect x="706" y="322" width="92" height="44" fill="#fff"/>
+  <text x="752" y="352" text-anchor="middle" class="cellText">C</text>
+  <rect x="798" y="322" width="92" height="44" fill="#fff"/>
+  <text x="844" y="352" text-anchor="middle" class="cellText">B</text>
+  <rect x="890" y="322" width="92" height="44" fill="#fff"/>
+  <text x="936" y="352" text-anchor="middle" class="cellText">A#</text>
+  <rect x="982" y="322" width="92" height="44" fill="#fff"/>
+  <text x="1028" y="352" text-anchor="middle" class="cellText">A</text>
+  <rect x="1074" y="322" width="92" height="44" fill="#fff"/>
+  <text x="1120" y="352" text-anchor="middle" class="cellText">G#</text>
+  <rect x="1166" y="322" width="92" height="44" fill="#fff"/>
+  <text x="1212" y="352" text-anchor="middle" class="cellText">G</text>
+  <rect x="36" y="366" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="396" text-anchor="middle" class="rowHead">F</text>
+  <rect x="154" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="200" y="396" text-anchor="middle" class="cellText">G</text>
+  <rect x="246" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="292" y="396" text-anchor="middle" class="cellText">F#</text>
+  <rect x="338" y="366" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="396" text-anchor="middle" class="cellText">F</text>
+  <rect x="430" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="476" y="396" text-anchor="middle" class="cellText">E</text>
+  <rect x="522" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="568" y="396" text-anchor="middle" class="cellText">D#</text>
+  <rect x="614" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="660" y="396" text-anchor="middle" class="cellText">D</text>
+  <rect x="706" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="752" y="396" text-anchor="middle" class="cellText">C#</text>
+  <rect x="798" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="844" y="396" text-anchor="middle" class="cellText">C</text>
+  <rect x="890" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="936" y="396" text-anchor="middle" class="cellText">B</text>
+  <rect x="982" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1028" y="396" text-anchor="middle" class="cellText">A#</text>
+  <rect x="1074" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1120" y="396" text-anchor="middle" class="cellText">A</text>
+  <rect x="1166" y="366" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1212" y="396" text-anchor="middle" class="cellText">G#</text>
+  <rect x="36" y="410" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="440" text-anchor="middle" class="rowHead">F#</text>
+  <rect x="154" y="410" width="92" height="44" fill="#fff"/>
+  <text x="200" y="440" text-anchor="middle" class="cellText">G#</text>
+  <rect x="246" y="410" width="92" height="44" fill="#fff"/>
+  <text x="292" y="440" text-anchor="middle" class="cellText">G</text>
+  <rect x="338" y="410" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="440" text-anchor="middle" class="cellText">F#</text>
+  <rect x="430" y="410" width="92" height="44" fill="#fff"/>
+  <text x="476" y="440" text-anchor="middle" class="cellText">F</text>
+  <rect x="522" y="410" width="92" height="44" fill="#fff"/>
+  <text x="568" y="440" text-anchor="middle" class="cellText">E</text>
+  <rect x="614" y="410" width="92" height="44" fill="#fff"/>
+  <text x="660" y="440" text-anchor="middle" class="cellText">D#</text>
+  <rect x="706" y="410" width="92" height="44" fill="#fff"/>
+  <text x="752" y="440" text-anchor="middle" class="cellText">D</text>
+  <rect x="798" y="410" width="92" height="44" fill="#fff"/>
+  <text x="844" y="440" text-anchor="middle" class="cellText">C#</text>
+  <rect x="890" y="410" width="92" height="44" fill="#fff"/>
+  <text x="936" y="440" text-anchor="middle" class="cellText">C</text>
+  <rect x="982" y="410" width="92" height="44" fill="#fff"/>
+  <text x="1028" y="440" text-anchor="middle" class="cellText">B</text>
+  <rect x="1074" y="410" width="92" height="44" fill="#fff"/>
+  <text x="1120" y="440" text-anchor="middle" class="cellText">A#</text>
+  <rect x="1166" y="410" width="92" height="44" fill="#fff"/>
+  <text x="1212" y="440" text-anchor="middle" class="cellText">A</text>
+  <rect x="36" y="454" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="484" text-anchor="middle" class="rowHead">G</text>
+  <rect x="154" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="200" y="484" text-anchor="middle" class="cellText">A</text>
+  <rect x="246" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="292" y="484" text-anchor="middle" class="cellText">G#</text>
+  <rect x="338" y="454" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="484" text-anchor="middle" class="cellText">G</text>
+  <rect x="430" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="476" y="484" text-anchor="middle" class="cellText">F#</text>
+  <rect x="522" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="568" y="484" text-anchor="middle" class="cellText">F</text>
+  <rect x="614" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="660" y="484" text-anchor="middle" class="cellText">E</text>
+  <rect x="706" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="752" y="484" text-anchor="middle" class="cellText">D#</text>
+  <rect x="798" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="844" y="484" text-anchor="middle" class="cellText">D</text>
+  <rect x="890" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="936" y="484" text-anchor="middle" class="cellText">C#</text>
+  <rect x="982" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1028" y="484" text-anchor="middle" class="cellText">C</text>
+  <rect x="1074" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1120" y="484" text-anchor="middle" class="cellText">B</text>
+  <rect x="1166" y="454" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1212" y="484" text-anchor="middle" class="cellText">A#</text>
+  <rect x="36" y="498" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="528" text-anchor="middle" class="rowHead">G#</text>
+  <rect x="154" y="498" width="92" height="44" fill="#fff"/>
+  <text x="200" y="528" text-anchor="middle" class="cellText">A#</text>
+  <rect x="246" y="498" width="92" height="44" fill="#fff"/>
+  <text x="292" y="528" text-anchor="middle" class="cellText">A</text>
+  <rect x="338" y="498" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="528" text-anchor="middle" class="cellText">G#</text>
+  <rect x="430" y="498" width="92" height="44" fill="#fff"/>
+  <text x="476" y="528" text-anchor="middle" class="cellText">G</text>
+  <rect x="522" y="498" width="92" height="44" fill="#fff"/>
+  <text x="568" y="528" text-anchor="middle" class="cellText">F#</text>
+  <rect x="614" y="498" width="92" height="44" fill="#fff"/>
+  <text x="660" y="528" text-anchor="middle" class="cellText">F</text>
+  <rect x="706" y="498" width="92" height="44" fill="#fff"/>
+  <text x="752" y="528" text-anchor="middle" class="cellText">E</text>
+  <rect x="798" y="498" width="92" height="44" fill="#fff"/>
+  <text x="844" y="528" text-anchor="middle" class="cellText">D#</text>
+  <rect x="890" y="498" width="92" height="44" fill="#fff"/>
+  <text x="936" y="528" text-anchor="middle" class="cellText">D</text>
+  <rect x="982" y="498" width="92" height="44" fill="#fff"/>
+  <text x="1028" y="528" text-anchor="middle" class="cellText">C#</text>
+  <rect x="1074" y="498" width="92" height="44" fill="#fff"/>
+  <text x="1120" y="528" text-anchor="middle" class="cellText">C</text>
+  <rect x="1166" y="498" width="92" height="44" fill="#fff"/>
+  <text x="1212" y="528" text-anchor="middle" class="cellText">B</text>
+  <rect x="36" y="542" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="572" text-anchor="middle" class="rowHead">A</text>
+  <rect x="154" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="200" y="572" text-anchor="middle" class="cellText">B</text>
+  <rect x="246" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="292" y="572" text-anchor="middle" class="cellText">A#</text>
+  <rect x="338" y="542" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="572" text-anchor="middle" class="cellText">A</text>
+  <rect x="430" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="476" y="572" text-anchor="middle" class="cellText">G#</text>
+  <rect x="522" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="568" y="572" text-anchor="middle" class="cellText">G</text>
+  <rect x="614" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="660" y="572" text-anchor="middle" class="cellText">F#</text>
+  <rect x="706" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="752" y="572" text-anchor="middle" class="cellText">F</text>
+  <rect x="798" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="844" y="572" text-anchor="middle" class="cellText">E</text>
+  <rect x="890" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="936" y="572" text-anchor="middle" class="cellText">D#</text>
+  <rect x="982" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1028" y="572" text-anchor="middle" class="cellText">D</text>
+  <rect x="1074" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1120" y="572" text-anchor="middle" class="cellText">C#</text>
+  <rect x="1166" y="542" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1212" y="572" text-anchor="middle" class="cellText">C</text>
+  <rect x="36" y="586" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="616" text-anchor="middle" class="rowHead">A#</text>
+  <rect x="154" y="586" width="92" height="44" fill="#fff"/>
+  <text x="200" y="616" text-anchor="middle" class="cellText">C</text>
+  <rect x="246" y="586" width="92" height="44" fill="#fff"/>
+  <text x="292" y="616" text-anchor="middle" class="cellText">B</text>
+  <rect x="338" y="586" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="616" text-anchor="middle" class="cellText">A#</text>
+  <rect x="430" y="586" width="92" height="44" fill="#fff"/>
+  <text x="476" y="616" text-anchor="middle" class="cellText">A</text>
+  <rect x="522" y="586" width="92" height="44" fill="#fff"/>
+  <text x="568" y="616" text-anchor="middle" class="cellText">G#</text>
+  <rect x="614" y="586" width="92" height="44" fill="#fff"/>
+  <text x="660" y="616" text-anchor="middle" class="cellText">G</text>
+  <rect x="706" y="586" width="92" height="44" fill="#fff"/>
+  <text x="752" y="616" text-anchor="middle" class="cellText">F#</text>
+  <rect x="798" y="586" width="92" height="44" fill="#fff"/>
+  <text x="844" y="616" text-anchor="middle" class="cellText">F</text>
+  <rect x="890" y="586" width="92" height="44" fill="#fff"/>
+  <text x="936" y="616" text-anchor="middle" class="cellText">E</text>
+  <rect x="982" y="586" width="92" height="44" fill="#fff"/>
+  <text x="1028" y="616" text-anchor="middle" class="cellText">D#</text>
+  <rect x="1074" y="586" width="92" height="44" fill="#fff"/>
+  <text x="1120" y="616" text-anchor="middle" class="cellText">D</text>
+  <rect x="1166" y="586" width="92" height="44" fill="#fff"/>
+  <text x="1212" y="616" text-anchor="middle" class="cellText">C#</text>
+  <rect x="36" y="630" width="118" height="44" fill="#22332d"/>
+  <text x="95" y="660" text-anchor="middle" class="rowHead">B</text>
+  <rect x="154" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="200" y="660" text-anchor="middle" class="cellText">C#</text>
+  <rect x="246" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="292" y="660" text-anchor="middle" class="cellText">C</text>
+  <rect x="338" y="630" width="92" height="44" fill="#e4f0ec"/>
+  <text x="384" y="660" text-anchor="middle" class="cellText">B</text>
+  <rect x="430" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="476" y="660" text-anchor="middle" class="cellText">A#</text>
+  <rect x="522" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="568" y="660" text-anchor="middle" class="cellText">A</text>
+  <rect x="614" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="660" y="660" text-anchor="middle" class="cellText">G#</text>
+  <rect x="706" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="752" y="660" text-anchor="middle" class="cellText">G</text>
+  <rect x="798" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="844" y="660" text-anchor="middle" class="cellText">F#</text>
+  <rect x="890" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="936" y="660" text-anchor="middle" class="cellText">F</text>
+  <rect x="982" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1028" y="660" text-anchor="middle" class="cellText">E</text>
+  <rect x="1074" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1120" y="660" text-anchor="middle" class="cellText">D#</text>
+  <rect x="1166" y="630" width="92" height="44" fill="#fbf2d7"/>
+  <text x="1212" y="660" text-anchor="middle" class="cellText">D</text>
+  <line x1="36" y1="146" x2="1258" y2="146" class="line"/>
+  <line x1="36" y1="190" x2="1258" y2="190" class="line"/>
+  <line x1="36" y1="234" x2="1258" y2="234" class="line"/>
+  <line x1="36" y1="278" x2="1258" y2="278" class="line"/>
+  <line x1="36" y1="322" x2="1258" y2="322" class="line"/>
+  <line x1="36" y1="366" x2="1258" y2="366" class="line"/>
+  <line x1="36" y1="410" x2="1258" y2="410" class="line"/>
+  <line x1="36" y1="454" x2="1258" y2="454" class="line"/>
+  <line x1="36" y1="498" x2="1258" y2="498" class="line"/>
+  <line x1="36" y1="542" x2="1258" y2="542" class="line"/>
+  <line x1="36" y1="586" x2="1258" y2="586" class="line"/>
+  <line x1="36" y1="630" x2="1258" y2="630" class="line"/>
+  <line x1="36" y1="674" x2="1258" y2="674" class="line"/>
+  <line x1="36" y1="92" x2="36" y2="674" class="line"/>
+  <line x1="154" y1="92" x2="154" y2="674" class="line"/>
+  <line x1="246" y1="92" x2="246" y2="674" class="line"/>
+  <line x1="338" y1="92" x2="338" y2="674" class="line"/>
+  <line x1="430" y1="92" x2="430" y2="674" class="line"/>
+  <line x1="522" y1="92" x2="522" y2="674" class="line"/>
+  <line x1="614" y1="92" x2="614" y2="674" class="line"/>
+  <line x1="706" y1="92" x2="706" y2="674" class="line"/>
+  <line x1="798" y1="92" x2="798" y2="674" class="line"/>
+  <line x1="890" y1="92" x2="890" y2="674" class="line"/>
+  <line x1="982" y1="92" x2="982" y2="674" class="line"/>
+  <line x1="1074" y1="92" x2="1074" y2="674" class="line"/>
+  <line x1="1166" y1="92" x2="1166" y2="674" class="line"/>
+  <line x1="1258" y1="92" x2="1258" y2="674" class="line"/>
+</svg>
