@@ -63,6 +63,7 @@ let lastTouchActionAt = 0;
 let supabaseClient = null;
 let currentUser = null;
 let cloudSaveTimer = null;
+let entrySaveTimer = null;
 let isCloudReady = false;
 
 function loadEntries() {
@@ -702,16 +703,30 @@ function readForm() {
   };
 }
 
-function saveEntry(event) {
-  event.preventDefault();
+function saveCurrentEntry(showResult) {
   const entry = readForm();
   const index = state.entries.findIndex((item) => item.id === entry.id);
   if (index >= 0) state.entries[index] = entry;
   else state.entries.unshift(entry);
   state.selectedId = entry.id;
   persist();
-  render();
-  showSaved();
+  renderStats();
+  renderList();
+  renderTable();
+  if (showResult) showSaved();
+}
+
+function queueEntrySave() {
+  window.clearTimeout(entrySaveTimer);
+  entrySaveTimer = window.setTimeout(() => {
+    saveCurrentEntry(false);
+  }, 500);
+}
+
+function saveEntry(event) {
+  event.preventDefault();
+  window.clearTimeout(entrySaveTimer);
+  saveCurrentEntry(true);
 }
 
 function createEntry() {
@@ -891,7 +906,9 @@ tableBody.addEventListener("click", (event) => {
 
 form.addEventListener("input", () => {
   drawSongMap(readForm());
+  queueEntrySave();
 });
+form.addEventListener("change", queueEntrySave);
 form.addEventListener("submit", saveEntry);
 document.querySelector("#newEntryButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) createEntry();
