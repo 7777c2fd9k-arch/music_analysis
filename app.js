@@ -54,6 +54,8 @@ const syncLoginControls = document.querySelector("#syncLoginControls");
 const syncUserControls = document.querySelector("#syncUserControls");
 const syncEmail = document.querySelector("#syncEmail");
 const syncUserEmail = document.querySelector("#syncUserEmail");
+const syncPanel = document.querySelector(".sync-panel");
+const syncToggleButton = document.querySelector("#syncToggleButton");
 const canvas = document.querySelector("#fingerprintCanvas");
 const ctx = canvas.getContext("2d");
 let tableDrag = null;
@@ -124,6 +126,8 @@ function setSyncStatus(message) {
 
 function updateSyncUi() {
   if (!isCloudReady) {
+    syncPanel.classList.remove("is-signed-in", "is-open");
+    syncToggleButton.classList.add("is-hidden");
     syncLoginControls.classList.add("is-hidden");
     syncUserControls.classList.add("is-hidden");
     setSyncStatus("未設定");
@@ -131,6 +135,10 @@ function updateSyncUi() {
   }
 
   if (currentUser) {
+    syncPanel.classList.add("is-signed-in");
+    syncPanel.classList.remove("is-open");
+    syncToggleButton.classList.remove("is-hidden");
+    syncToggleButton.setAttribute("aria-expanded", "false");
     syncLoginControls.classList.add("is-hidden");
     syncUserControls.classList.remove("is-hidden");
     syncUserEmail.textContent = currentUser.email || "ログイン中";
@@ -138,6 +146,8 @@ function updateSyncUi() {
     return;
   }
 
+  syncPanel.classList.remove("is-signed-in", "is-open");
+  syncToggleButton.classList.add("is-hidden");
   syncLoginControls.classList.remove("is-hidden");
   syncUserControls.classList.add("is-hidden");
   setSyncStatus("未ログイン");
@@ -901,6 +911,10 @@ document.querySelector("#syncLoginButton").addEventListener("click", () => {
 });
 document.querySelector("#googleLoginButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) signInWithGoogle();
+});
+syncToggleButton.addEventListener("click", () => {
+  const isOpen = syncPanel.classList.toggle("is-open");
+  syncToggleButton.setAttribute("aria-expanded", String(isOpen));
 });
 document.querySelector("#cloudSaveButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) saveCloudEntries(true);

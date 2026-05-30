@@ -267,11 +267,29 @@ textarea:focus {
   background: rgba(255, 255, 255, 0.82);
 }
 
+.sync-panel.is-signed-in {
+  inline-size: max-content;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.sync-panel.is-signed-in.is-open {
+  inline-size: auto;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+}
+
 .sync-header {
   display: flex;
   justify-content: space-between;
   gap: 10px;
   align-items: center;
+}
+
+.sync-panel.is-signed-in .sync-header {
+  justify-content: flex-start;
 }
 
 .sync-header strong {
@@ -284,6 +302,37 @@ textarea:focus {
   font-size: 12px;
   font-weight: 800;
   overflow-wrap: anywhere;
+}
+
+.sync-icon-button {
+  display: grid;
+  place-items: center;
+  inline-size: 44px;
+  block-size: 44px;
+  border: 1px solid rgba(55, 115, 92, 0.36);
+  border-radius: 999px;
+  background: var(--green);
+  color: white;
+  font-size: 20px;
+  font-weight: 900;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.sync-panel.is-signed-in .sync-header strong,
+.sync-panel.is-signed-in .sync-header span,
+.sync-panel.is-signed-in .sync-actions {
+  display: none;
+}
+
+.sync-panel.is-signed-in.is-open .sync-header strong,
+.sync-panel.is-signed-in.is-open .sync-header span,
+.sync-panel.is-signed-in.is-open .sync-actions {
+  display: grid;
+}
+
+.sync-panel.is-signed-in.is-open .sync-header {
+  justify-content: space-between;
 }
 
 .sync-login,
