@@ -159,6 +159,19 @@ function getSupabaseConfig() {
   };
 }
 
+function getAuthRedirectUrl() {
+  const url = new URL(window.location.href);
+  url.search = "";
+  url.hash = "";
+  return url.toString();
+}
+
+function cleanAuthUrl() {
+  if (!window.history || typeof window.history.replaceState !== "function") return;
+  if (!window.location.search && !window.location.hash) return;
+  window.history.replaceState({}, document.title, getAuthRedirectUrl());
+}
+
 function setSyncStatus(message) {
   syncStatus.textContent = message;
 }
@@ -201,14 +214,22 @@ async function initCloudSync() {
   }
 
   isCloudReady = true;
-  supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+  supabaseClient = window.supabase.createClient(config.url, config.anonKey, {
+    auth: {
+      autoRefreshToken: true,
+      detectSessionInUrl: true,
+      persistSession: true,
+    },
+  });
 
   const sessionResult = await supabaseClient.auth.getSession();
   currentUser = sessionResult.data && sessionResult.data.session ? sessionResult.data.session.user : null;
+  if (currentUser) cleanAuthUrl();
   updateSyncUi();
 
   supabaseClient.auth.onAuthStateChange((event, session) => {
     currentUser = session ? session.user : null;
+    if (currentUser) cleanAuthUrl();
     updateSyncUi();
     if (event === "SIGNED_IN") loadCloudEntries(true);
   });
@@ -241,7 +262,10 @@ async function signInWithGoogle() {
   const result = await supabaseClient.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: window.location.href,
+      redirectTo: getAuthRedirectUrl(),
+      queryParams: {
+        prompt: "select_account",
+      },
     },
   });
   if (result.error) setSyncStatus(`Google失敗: ${result.error.message}`);
