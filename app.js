@@ -22,9 +22,17 @@ const sampleEntries = [
     trackUrl: "",
     tags: ["dub", "minimal"],
     favorite: true,
+    introKey: "",
+    introChords: "",
     intro: "余白のある入り。音数は少ないが、残響で奥行きが作られている。",
+    verseAKey: "",
+    verseAChords: "",
     verseA: "低域の反復に声が乗る。メロディは大きく動かず、質感で聴かせる。",
+    verseBKey: "",
+    verseBChords: "",
     verseB: "明確なBメロというより、音の重なりとテンションで少しずつ景色が変わる。",
+    chorusKey: "",
+    chorusChords: "",
     chorus: "サビの爆発よりも、反復の中に広がりが出るタイプ。",
     notes: "構成の派手さではなく、同じ素材の鳴らし方で曲を進めている。自作でも展開を増やす前に音色と空間で変化を作ってみたい。",
     updatedAt: new Date().toISOString(),
@@ -41,7 +49,27 @@ const state = {
   sort: "songKey",
 };
 
-const fields = ["title", "artist", "bpm", "songKey", "trackUrl", "tags", "intro", "verseA", "verseB", "chorus", "notes"];
+const fields = [
+  "title",
+  "artist",
+  "bpm",
+  "songKey",
+  "trackUrl",
+  "tags",
+  "introKey",
+  "introChords",
+  "intro",
+  "verseAKey",
+  "verseAChords",
+  "verseA",
+  "verseBKey",
+  "verseBChords",
+  "verseB",
+  "chorusKey",
+  "chorusChords",
+  "chorus",
+  "notes",
+];
 const form = document.querySelector("#analysisForm");
 const entryList = document.querySelector("#entryList");
 const detailView = document.querySelector("#detailView");
@@ -101,9 +129,17 @@ function convertLegacyEntry(entry) {
     trackUrl: entry.trackUrl || "",
     tags: Array.isArray(entry.tags) ? entry.tags : [],
     favorite: Boolean(entry.favorite),
+    introKey: entry.introKey || "",
+    introChords: entry.introChords || "",
     intro: entry.intro || entry.structure || "",
+    verseAKey: entry.verseAKey || "",
+    verseAChords: entry.verseAChords || "",
     verseA: entry.verseA || entry.melody || "",
+    verseBKey: entry.verseBKey || "",
+    verseBChords: entry.verseBChords || "",
     verseB: entry.verseB || entry.harmony || "",
+    chorusKey: entry.chorusKey || "",
+    chorusChords: entry.chorusChords || "",
     chorus: entry.chorus || entry.rhythm || "",
     notes: entry.notes || [entry.lyrics, entry.production, entry.takeaways].filter(Boolean).join("\n\n"),
     updatedAt: entry.updatedAt || new Date().toISOString(),
@@ -305,9 +341,17 @@ function filteredEntries() {
         entry.bpm,
         entry.songKey,
         entry.trackUrl,
+        entry.introKey,
+        entry.introChords,
         entry.intro,
+        entry.verseAKey,
+        entry.verseAChords,
         entry.verseA,
+        entry.verseBKey,
+        entry.verseBChords,
         entry.verseB,
+        entry.chorusKey,
+        entry.chorusChords,
         entry.chorus,
         entry.notes,
         ...(entry.tags || []),
@@ -428,10 +472,10 @@ function renderTable() {
       <td>${entry.songKey ? escapeHtml(entry.songKey) : '<span class="muted-cell">未入力</span>'}</td>
       <td class="table-url">${formatUrlCell(entry.trackUrl)}</td>
       <td>${formatTagsCell(entry.tags)}</td>
-      <td class="table-note">${formatCell(entry.intro)}</td>
-      <td class="table-note">${formatCell(entry.verseA)}</td>
-      <td class="table-note">${formatCell(entry.verseB)}</td>
-      <td class="table-note">${formatCell(entry.chorus)}</td>
+      <td class="table-note">${formatSectionCell(entry, "intro")}</td>
+      <td class="table-note">${formatSectionCell(entry, "verseA")}</td>
+      <td class="table-note">${formatSectionCell(entry, "verseB")}</td>
+      <td class="table-note">${formatSectionCell(entry, "chorus")}</td>
       <td class="table-note">${formatCell(entry.notes)}</td>
       <td><button class="table-action" type="button" data-edit="${entry.id}">編集</button></td>
     `;
@@ -449,6 +493,20 @@ function groupLabel(entry) {
 function formatTagsCell(tags) {
   if (!tags || !tags.length) return '<span class="muted-cell">未入力</span>';
   return `<div class="tag-list">${tags.map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("")}</div>`;
+}
+
+function formatSectionCell(entry, section) {
+  const key = entry[`${section}Key`];
+  const chords = entry[`${section}Chords`];
+  const memo = entry[section];
+  if (!key && !chords && !memo) return '<span class="muted-cell">未入力</span>';
+  return `
+    <div class="table-section-cell">
+      ${key ? `<span><strong>キー</strong>${escapeHtml(key)}</span>` : ""}
+      ${chords ? `<span><strong>コード</strong>${escapeHtml(chords)}</span>` : ""}
+      ${memo ? `<p>${escapeHtml(memo)}</p>` : ""}
+    </div>
+  `;
 }
 
 function formatCell(value) {
@@ -638,20 +696,23 @@ function renderDetail(entry) {
   }
 
   const sections = [
-    ["イントロ", entry.intro],
-    ["Aメロ", entry.verseA],
-    ["Bメロ", entry.verseB],
-    ["サビ", entry.chorus],
-    ["備考", entry.notes],
+    ["イントロ", "intro"],
+    ["Aメロ", "verseA"],
+    ["Bメロ", "verseB"],
+    ["サビ", "chorus"],
   ]
+    .map(([label, section]) => [label, renderSectionDetail(entry, section)])
     .filter(([, value]) => value)
     .map(([label, value]) => `
       <div class="detail-section">
         <strong>${label}</strong>
-        <p>${escapeHtml(value)}</p>
+        ${value}
       </div>
     `)
     .join("");
+  const notes = entry.notes
+    ? `<div class="detail-section"><strong>備考</strong><p>${escapeHtml(entry.notes)}</p></div>`
+    : "";
 
   const tags = (entry.tags || []).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join("");
   detailView.innerHTML = `
@@ -665,7 +726,21 @@ function renderDetail(entry) {
       </div>
     </div>
     <div class="tag-list">${tags}</div>
-    ${sections || '<div class="empty-state">まだ詳細メモがありません。</div>'}
+    ${sections || notes ? `${sections}${notes}` : '<div class="empty-state">まだ詳細メモがありません。</div>'}
+  `;
+}
+
+function renderSectionDetail(entry, section) {
+  const key = entry[`${section}Key`];
+  const chords = entry[`${section}Chords`];
+  const memo = entry[section];
+  if (!key && !chords && !memo) return "";
+  return `
+    <div class="detail-subgrid">
+      ${key ? `<span><b>キー</b>${escapeHtml(key)}</span>` : ""}
+      ${chords ? `<span><b>コード進行</b>${escapeHtml(chords)}</span>` : ""}
+    </div>
+    ${memo ? `<p>${escapeHtml(memo)}</p>` : ""}
   `;
 }
 
@@ -677,10 +752,10 @@ function drawSongMap(entry) {
   ctx.fillRect(0, 0, width, height);
 
   const parts = [
-    ["Intro", entry && entry.intro, "#d9a441"],
-    ["A", entry && entry.verseA, "#58a188"],
-    ["B", entry && entry.verseB, "#f1eee5"],
-    ["Chorus", entry && entry.chorus, "#b8422d"],
+    ["Intro", sectionValue(entry, "intro"), "#d9a441"],
+    ["A", sectionValue(entry, "verseA"), "#58a188"],
+    ["B", sectionValue(entry, "verseB"), "#f1eee5"],
+    ["Chorus", sectionValue(entry, "chorus"), "#b8422d"],
   ];
   const filled = parts.filter(([, value]) => value).length || 1;
   const barWidth = (width - 96) / parts.length;
@@ -707,6 +782,11 @@ function drawSongMap(entry) {
   ctx.fillText(`filled sections: ${filled}/4`, width / 2, height - 18);
 }
 
+function sectionValue(entry, section) {
+  if (!entry) return "";
+  return [entry[`${section}Key`], entry[`${section}Chords`], entry[section]].filter(Boolean).join(" ");
+}
+
 function readForm() {
   return {
     id: document.querySelector("#entryId").value || createId(),
@@ -717,9 +797,17 @@ function readForm() {
     trackUrl: document.querySelector("#trackUrl").value.trim(),
     tags: normalizeTags(document.querySelector("#tags").value),
     favorite: document.querySelector("#favorite").checked,
+    introKey: document.querySelector("#introKey").value.trim(),
+    introChords: document.querySelector("#introChords").value.trim(),
     intro: document.querySelector("#intro").value.trim(),
+    verseAKey: document.querySelector("#verseAKey").value.trim(),
+    verseAChords: document.querySelector("#verseAChords").value.trim(),
     verseA: document.querySelector("#verseA").value.trim(),
+    verseBKey: document.querySelector("#verseBKey").value.trim(),
+    verseBChords: document.querySelector("#verseBChords").value.trim(),
     verseB: document.querySelector("#verseB").value.trim(),
+    chorusKey: document.querySelector("#chorusKey").value.trim(),
+    chorusChords: document.querySelector("#chorusChords").value.trim(),
     chorus: document.querySelector("#chorus").value.trim(),
     notes: document.querySelector("#notes").value.trim(),
     updatedAt: new Date().toISOString(),
@@ -762,9 +850,17 @@ function createEntry() {
     trackUrl: "",
     tags: [],
     favorite: false,
+    introKey: "",
+    introChords: "",
     intro: "",
+    verseAKey: "",
+    verseAChords: "",
     verseA: "",
+    verseBKey: "",
+    verseBChords: "",
     verseB: "",
+    chorusKey: "",
+    chorusChords: "",
     chorus: "",
     notes: "",
     updatedAt: new Date().toISOString(),
@@ -798,7 +894,29 @@ function exportEntries() {
 }
 
 function exportCsv() {
-  const headers = ["曲名", "アーティスト", "BPM", "曲のキー", "URL", "タグ", "イントロ", "Aメロ", "Bメロ", "サビ", "備考", "重要", "更新日"];
+  const headers = [
+    "曲名",
+    "アーティスト",
+    "BPM",
+    "曲のキー",
+    "URL",
+    "タグ",
+    "イントロ キー",
+    "イントロ コード進行",
+    "イントロ メモ",
+    "Aメロ キー",
+    "Aメロ コード進行",
+    "Aメロ メモ",
+    "Bメロ キー",
+    "Bメロ コード進行",
+    "Bメロ メモ",
+    "サビ キー",
+    "サビ コード進行",
+    "サビ メモ",
+    "備考",
+    "重要",
+    "更新日",
+  ];
   const visibleIds = [...tableBody.querySelectorAll("tr[data-id]")].map((row) => row.dataset.id);
   const visibleEntries = visibleIds.length
     ? visibleIds.map((id) => state.entries.find((entry) => entry.id === id)).filter(Boolean)
@@ -810,9 +928,17 @@ function exportCsv() {
     entry.songKey || "",
     entry.trackUrl || "",
     (entry.tags || []).join(", "),
+    entry.introKey || "",
+    entry.introChords || "",
     entry.intro || "",
+    entry.verseAKey || "",
+    entry.verseAChords || "",
     entry.verseA || "",
+    entry.verseBKey || "",
+    entry.verseBChords || "",
     entry.verseB || "",
+    entry.chorusKey || "",
+    entry.chorusChords || "",
     entry.chorus || "",
     entry.notes || "",
     entry.favorite ? "TRUE" : "FALSE",

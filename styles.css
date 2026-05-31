@@ -120,6 +120,29 @@ label {
   font-weight: 700;
 }
 
+.section-fields {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(247, 248, 244, 0.62);
+}
+
+.section-fields legend {
+  padding: 0 6px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.section-subgrid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: 12px;
+}
+
 input,
 select,
 textarea {
@@ -657,6 +680,33 @@ canvas {
   white-space: pre-wrap;
 }
 
+.detail-subgrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.detail-subgrid span,
+.table-section-cell span {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  width: fit-content;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.detail-subgrid b,
+.table-section-cell strong {
+  color: var(--muted);
+  font-size: 11px;
+}
+
 .empty-state {
   padding: 20px;
   color: var(--muted);
@@ -787,6 +837,16 @@ canvas {
 .analysis-table .table-note {
   min-width: 220px;
   max-width: 320px;
+}
+
+.table-section-cell {
+  display: grid;
+  gap: 7px;
+}
+
+.table-section-cell p {
+  margin: 0;
+  white-space: pre-wrap;
 }
 
 .analysis-table .table-url {
@@ -1231,6 +1291,7 @@ canvas {
   }
 
   .field-grid,
+  .section-subgrid,
   .slider-grid {
     grid-template-columns: 1fr;
   }

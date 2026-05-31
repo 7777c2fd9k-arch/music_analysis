@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>楽曲分析ノート</title>
-    <link rel="stylesheet" href="./styles.css?v=20260530-tag-filter" />
+    <link rel="stylesheet" href="./styles.css?v=20260531-section-chords" />
   </head>
   <body>
     <main class="app-shell">
@@ -135,22 +135,74 @@
                 <input id="tags" placeholder="city pop, syncopation, chorus lift" />
               </label>
 
-              <label>
-                イントロ
-                <textarea id="intro" rows="3" placeholder="入り方、コード、音色、印象など"></textarea>
-              </label>
-              <label>
-                Aメロ
-                <textarea id="verseA" rows="3" placeholder="メロディ、歌詞、コード、リズムの特徴"></textarea>
-              </label>
-              <label>
-                Bメロ
-                <textarea id="verseB" rows="3" placeholder="サビへのつなぎ、展開、緊張感"></textarea>
-              </label>
-              <label>
-                サビ
-                <textarea id="chorus" rows="3" placeholder="フック、盛り上がり、コード、歌詞の着地点"></textarea>
-              </label>
+              <fieldset class="section-fields">
+                <legend>イントロ</legend>
+                <div class="section-subgrid">
+                  <label>
+                    キー
+                    <input id="introKey" placeholder="例: C major" />
+                  </label>
+                  <label>
+                    コード進行
+                    <input id="introChords" placeholder="例: C - G - Am - F" />
+                  </label>
+                </div>
+                <label>
+                  メモ
+                  <textarea id="intro" rows="3" placeholder="入り方、音色、印象など"></textarea>
+                </label>
+              </fieldset>
+              <fieldset class="section-fields">
+                <legend>Aメロ</legend>
+                <div class="section-subgrid">
+                  <label>
+                    キー
+                    <input id="verseAKey" placeholder="例: C major" />
+                  </label>
+                  <label>
+                    コード進行
+                    <input id="verseAChords" placeholder="例: Am - F - C - G" />
+                  </label>
+                </div>
+                <label>
+                  メモ
+                  <textarea id="verseA" rows="3" placeholder="メロディ、歌詞、リズムの特徴"></textarea>
+                </label>
+              </fieldset>
+              <fieldset class="section-fields">
+                <legend>Bメロ</legend>
+                <div class="section-subgrid">
+                  <label>
+                    キー
+                    <input id="verseBKey" placeholder="例: D minor" />
+                  </label>
+                  <label>
+                    コード進行
+                    <input id="verseBChords" placeholder="例: F - G - Em - Am" />
+                  </label>
+                </div>
+                <label>
+                  メモ
+                  <textarea id="verseB" rows="3" placeholder="サビへのつなぎ、展開、緊張感"></textarea>
+                </label>
+              </fieldset>
+              <fieldset class="section-fields">
+                <legend>サビ</legend>
+                <div class="section-subgrid">
+                  <label>
+                    キー
+                    <input id="chorusKey" placeholder="例: C major" />
+                  </label>
+                  <label>
+                    コード進行
+                    <input id="chorusChords" placeholder="例: F - G - C - Am" />
+                  </label>
+                </div>
+                <label>
+                  メモ
+                  <textarea id="chorus" rows="3" placeholder="フック、盛り上がり、歌詞の着地点"></textarea>
+                </label>
+              </fieldset>
               <label>
                 備考
                 <textarea id="notes" rows="5" placeholder="全体の印象、気づき、参考にしたい点"></textarea>
@@ -249,6 +301,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
-    <script src="./app.js?v=20260530-tag-filter"></script>
+    <script src="./app.js?v=20260531-section-chords"></script>
   </body>
 </html>
