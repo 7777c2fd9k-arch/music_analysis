@@ -1,5 +1,7 @@
 const storageKey = "music-analysis-notes-v2";
 const cloudTableName = "music_analysis_notes";
+const audioDbName = "music-analysis-audio";
+const audioStoreName = "audio-files";
 
 function createId() {
   if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -20,6 +22,8 @@ const sampleEntries = [
     bpm: "92",
     songKey: "E major",
     trackUrl: "",
+    audioName: "",
+    audioType: "",
     tags: ["dub", "minimal"],
     favorite: true,
     introKey: "",
@@ -79,6 +83,9 @@ const analysisTable = document.querySelector(".analysis-table");
 const tableZoom = document.querySelector("#tableZoom");
 const zoomValue = document.querySelector("#zoomValue");
 const tagFilterSelect = document.querySelector("#tagFilterSelect");
+const audioFileInput = document.querySelector("#audioFile");
+const audioFileName = document.querySelector("#audioFileName");
+const removeAudioButton = document.querySelector("#removeAudioButton");
 const syncStatus = document.querySelector("#syncStatus");
 const syncLoginControls = document.querySelector("#syncLoginControls");
 const syncUserControls = document.querySelector("#syncUserControls");
@@ -95,6 +102,8 @@ let currentUser = null;
 let cloudSaveTimer = null;
 let entrySaveTimer = null;
 let isCloudReady = false;
+let audioDbPromise = null;
+let currentAudioUrl = "";
 
 function loadEntries() {
   const current = localStorage.getItem(storageKey);
@@ -127,6 +136,8 @@ function convertLegacyEntry(entry) {
     bpm: entry.bpm || "",
     songKey: entry.songKey || entry.keyMode || "",
     trackUrl: entry.trackUrl || "",
+    audioName: entry.audioName || "",
+    audioType: entry.audioType || "",
     tags: Array.isArray(entry.tags) ? entry.tags : [],
     favorite: Boolean(entry.favorite),
     introKey: entry.introKey || "",
@@ -157,6 +168,52 @@ function getSupabaseConfig() {
     url: String(config.url || "").trim(),
     anonKey: String(config.anonKey || "").trim(),
   };
+}
+
+function openAudioDb() {
+  if (audioDbPromise) return audioDbPromise;
+  audioDbPromise = new Promise((resolve, reject) => {
+    if (!window.indexedDB) {
+      reject(new Error("このブラウザでは音源保存に対応していません。"));
+      return;
+    }
+    const request = window.indexedDB.open(audioDbName, 1);
+    request.onupgradeneeded = () => {
+      request.result.createObjectStore(audioStoreName);
+    };
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+  return audioDbPromise;
+}
+
+async function putAudioFile(entryId, file) {
+  const db = await openAudioDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(audioStoreName, "readwrite");
+    tx.objectStore(audioStoreName).put(file, entryId);
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function getAudioFile(entryId) {
+  const db = await openAudioDb();
+  return new Promise((resolve, reject) => {
+    const request = db.transaction(audioStoreName, "readonly").objectStore(audioStoreName).get(entryId);
+    request.onsuccess = () => resolve(request.result || null);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+async function deleteAudioFile(entryId) {
+  const db = await openAudioDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(audioStoreName, "readwrite");
+    tx.objectStore(audioStoreName).delete(entryId);
+    tx.oncomplete = resolve;
+    tx.onerror = () => reject(tx.error);
+  });
 }
 
 function getAuthRedirectUrl() {
@@ -276,6 +333,48 @@ async function signOutCloud() {
   await supabaseClient.auth.signOut();
   currentUser = null;
   updateSyncUi();
+}
+
+async function attachAudioFile(event) {
+  const [file] = event.target.files;
+  if (!file) return;
+  if (!file.type.startsWith("audio/") && !file.name.toLowerCase().endsWith(".mp3")) {
+    alert("音声ファイルを選んでください。");
+    event.target.value = "";
+    return;
+  }
+
+  window.clearTimeout(entrySaveTimer);
+  saveCurrentEntry(false);
+  const entry = getSelectedEntry();
+  if (!entry) return;
+
+  try {
+    await putAudioFile(entry.id, file);
+    entry.audioName = file.name;
+    entry.audioType = file.type || "audio/mpeg";
+    entry.updatedAt = new Date().toISOString();
+    persist();
+    render();
+  } catch (error) {
+    alert(error && error.message ? error.message : "音源を保存できませんでした。");
+  }
+}
+
+async function removeAudioFile() {
+  const entry = getSelectedEntry();
+  if (!entry || !entry.audioName) return;
+  if (!confirm("この曲の音源ファイルを削除しますか？")) return;
+  try {
+    await deleteAudioFile(entry.id);
+  } catch {
+    // Metadata is still cleared so the screen does not keep showing a broken player.
+  }
+  entry.audioName = "";
+  entry.audioType = "";
+  entry.updatedAt = new Date().toISOString();
+  persist();
+  render();
 }
 
 function queueCloudSave() {
@@ -685,6 +784,7 @@ function runTouchAction(event) {
   if (ordinaryButton.id === "deleteButton") deleteSelected();
   if (ordinaryButton.id === "tableCsvExportButton") exportCsv();
   if (ordinaryButton.id === "exportButton") exportEntries();
+  if (ordinaryButton.id === "removeAudioButton") removeAudioFile();
   if (ordinaryButton.id === "googleLoginButton") signInWithGoogle();
   if (ordinaryButton.id === "syncLoginButton") sendLoginLink();
   if (ordinaryButton.id === "cloudSaveButton") saveCloudEntries(true);
@@ -706,6 +806,9 @@ function fillForm(entry) {
   document.querySelector("#entryId").value = entry && entry.id ? entry.id : "";
   document.querySelector("#favorite").checked = Boolean(entry && entry.favorite);
   document.querySelector("#deleteButton").disabled = !entry;
+  audioFileInput.value = "";
+  audioFileName.textContent = entry && entry.audioName ? entry.audioName : "未選択";
+  removeAudioButton.disabled = !entry || !entry.audioName;
 
   fields.forEach((field) => {
     const input = document.querySelector(`#${field}`);
@@ -750,8 +853,39 @@ function renderDetail(entry) {
       </div>
     </div>
     <div class="tag-list">${tags}</div>
+    ${renderAudioBlock(entry)}
     ${sections || notes ? `${sections}${notes}` : '<div class="empty-state">まだ詳細メモがありません。</div>'}
   `;
+  hydrateAudioPlayer(entry);
+}
+
+function renderAudioBlock(entry) {
+  if (!entry.audioName) return "";
+  return `
+    <div class="audio-player-card">
+      <strong>音源</strong>
+      <span>${escapeHtml(entry.audioName)}</span>
+      <div id="audioPlayerSlot" class="audio-player-slot">読み込み中</div>
+    </div>
+  `;
+}
+
+async function hydrateAudioPlayer(entry) {
+  if (!entry || !entry.audioName) return;
+  const slot = document.querySelector("#audioPlayerSlot");
+  if (!slot) return;
+  try {
+    const file = await getAudioFile(entry.id);
+    if (!file) {
+      slot.innerHTML = '<span class="muted-cell">この端末には音源ファイルがありません。</span>';
+      return;
+    }
+    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
+    currentAudioUrl = URL.createObjectURL(file);
+    slot.innerHTML = `<audio controls preload="metadata" src="${currentAudioUrl}"></audio>`;
+  } catch {
+    slot.innerHTML = '<span class="muted-cell">音源を読み込めませんでした。</span>';
+  }
 }
 
 function renderSectionDetail(entry, section) {
@@ -819,6 +953,8 @@ function readForm() {
     bpm: document.querySelector("#bpm").value.trim(),
     songKey: document.querySelector("#songKey").value.trim(),
     trackUrl: document.querySelector("#trackUrl").value.trim(),
+    audioName: getSelectedEntry() && getSelectedEntry().id === document.querySelector("#entryId").value ? getSelectedEntry().audioName || "" : "",
+    audioType: getSelectedEntry() && getSelectedEntry().id === document.querySelector("#entryId").value ? getSelectedEntry().audioType || "" : "",
     tags: normalizeTags(document.querySelector("#tags").value),
     favorite: document.querySelector("#favorite").checked,
     introKey: document.querySelector("#introKey").value.trim(),
@@ -872,6 +1008,8 @@ function createEntry() {
     bpm: "",
     songKey: "",
     trackUrl: "",
+    audioName: "",
+    audioType: "",
     tags: [],
     favorite: false,
     introKey: "",
@@ -901,6 +1039,7 @@ function deleteSelected() {
   if (!state.selectedId) return;
   const entry = getSelectedEntry();
   if (!confirm(`${entry && entry.title ? entry.title : "この分析"}を削除しますか？`)) return;
+  deleteAudioFile(state.selectedId).catch(() => {});
   state.entries = state.entries.filter((item) => item.id !== state.selectedId);
   state.selectedId = state.entries[0] ? state.entries[0].id : null;
   persist();
@@ -1102,6 +1241,10 @@ document.querySelector("#exportButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) exportEntries();
 });
 document.querySelector("#importInput").addEventListener("change", importEntries);
+audioFileInput.addEventListener("change", attachAudioFile);
+removeAudioButton.addEventListener("click", () => {
+  if (!recentlyHandledTouch()) removeAudioFile();
+});
 document.querySelector("#syncLoginButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) sendLoginLink();
 });

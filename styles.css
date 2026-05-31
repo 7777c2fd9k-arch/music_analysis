@@ -143,6 +143,25 @@ label {
   gap: 12px;
 }
 
+.audio-upload {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: end;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.audio-file-name {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
 input,
 select,
 textarea {
@@ -705,6 +724,31 @@ canvas {
 .table-section-cell strong {
   color: var(--muted);
   font-size: 11px;
+}
+
+.audio-player-card {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(247, 248, 244, 0.72);
+}
+
+.audio-player-card strong {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.audio-player-card > span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.audio-player-slot audio {
+  width: 100%;
 }
 
 .empty-state {
@@ -1292,6 +1336,7 @@ canvas {
 
   .field-grid,
   .section-subgrid,
+  .audio-upload,
   .slider-grid {
     grid-template-columns: 1fr;
   }
