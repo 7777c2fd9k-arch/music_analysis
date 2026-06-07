@@ -349,12 +349,6 @@ async function loadCloudEntries(confirmReplace) {
     return;
   }
 
-  const hasLocal = state.entries.length > 0;
-  if (confirmReplace && hasLocal && !confirm("クラウドの内容でこの端末の分析を置き換えますか？")) {
-    setSyncStatus("ローカル保持");
-    return;
-  }
-
   state.entries = result.data.entries.map(convertLegacyEntry);
   state.selectedId = state.entries[0] ? state.entries[0].id : null;
   localStorage.setItem(storageKey, JSON.stringify(state.entries));
