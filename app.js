@@ -201,9 +201,9 @@ function updateSyncUi() {
   if (!isCloudReady) {
     syncPanel.classList.remove("is-signed-in", "is-open");
     syncToggleButton.classList.add("is-hidden");
-    syncLoginControls.classList.add("is-hidden");
+    syncLoginControls.classList.remove("is-hidden");
     syncUserControls.classList.add("is-hidden");
-    setSyncStatus("未設定");
+    setSyncStatus("ログイン読込失敗");
     return;
   }
 
@@ -259,7 +259,10 @@ async function initCloudSync() {
 }
 
 async function sendLoginLink() {
-  if (!supabaseClient) return;
+  if (!supabaseClient) {
+    setSyncStatus("ログイン読込失敗");
+    return;
+  }
   const email = syncEmail.value.trim();
   if (!email) {
     setSyncStatus("メールを入力");
@@ -278,7 +281,10 @@ async function sendLoginLink() {
 }
 
 async function signInWithGoogle() {
-  if (!supabaseClient) return;
+  if (!supabaseClient) {
+    setSyncStatus("ログイン読込失敗");
+    return;
+  }
   setSyncStatus("Googleへ移動");
   const result = await supabaseClient.auth.signInWithOAuth({
     provider: "google",
@@ -795,6 +801,7 @@ function runTouchAction(event) {
   const importLabel = closestElement(target, "#importInput, .import-action");
 
   if (importLabel) return;
+  if (ordinaryButton && ["googleLoginButton", "syncLoginButton"].includes(ordinaryButton.id)) return;
   if (!filterButton && !viewButton && !addTagButton && !manageTagButton && !tableEditButton && !entryButton && !ordinaryButton) return;
 
   event.preventDefault();
@@ -1291,9 +1298,12 @@ document.querySelector("#deleteButton").addEventListener("click", () => {
 document.querySelector("#tableCsvExportButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) exportCsv();
 });
-document.querySelector("#fullCsvExportButton").addEventListener("click", () => {
-  if (!recentlyHandledTouch()) exportCsv(false);
-});
+const fullCsvExportButton = document.querySelector("#fullCsvExportButton");
+if (fullCsvExportButton) {
+  fullCsvExportButton.addEventListener("click", () => {
+    if (!recentlyHandledTouch()) exportCsv(false);
+  });
+}
 document.querySelector("#exportButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) exportEntries();
 });
