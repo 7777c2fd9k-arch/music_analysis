@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>楽曲分析ノート</title>
-    <link rel="stylesheet" href="./styles.css?v=20260531-audio-player" />
+    <link rel="stylesheet" href="./styles.css?v=20260607-remove-audio-backup" />
   </head>
   <body>
     <main class="app-shell">
@@ -23,6 +23,29 @@
           <label for="searchInput">検索</label>
           <input id="searchInput" type="search" placeholder="曲名、アーティスト、タグ、メモ" />
         </div>
+
+        <details class="advanced-search">
+          <summary>詳細検索</summary>
+          <div class="advanced-search-grid">
+            <label>
+              キー
+              <input id="keyFilterInput" placeholder="例: C major" />
+            </label>
+            <label>
+              コード進行
+              <input id="chordFilterInput" placeholder="例: Am F C G" />
+            </label>
+            <label>
+              BPM下限
+              <input id="bpmMinInput" inputmode="numeric" placeholder="80" />
+            </label>
+            <label>
+              BPM上限
+              <input id="bpmMaxInput" inputmode="numeric" placeholder="120" />
+            </label>
+            <button id="clearAdvancedFiltersButton" class="ghost-button compact-action" type="button">条件クリア</button>
+          </div>
+        </details>
 
         <div class="filter-row" aria-label="フィルター">
           <button class="chip is-active" type="button" data-filter="all">すべて</button>
@@ -78,6 +101,7 @@
           <div class="segmented-control" aria-label="表示切り替え">
             <button class="is-active" type="button" data-view="detail">詳細</button>
             <button type="button" data-view="table">表</button>
+            <button type="button" data-view="tags">タグ整理</button>
             <button type="button" data-view="capo">早見表</button>
           </div>
           <div class="table-tools">
@@ -130,19 +154,12 @@
                 </label>
               </div>
 
-              <div class="audio-upload">
-                <label>
-                  MP3ファイル
-                  <input id="audioFile" type="file" accept="audio/mpeg,audio/mp3,audio/*" />
-                </label>
-                <button id="removeAudioButton" class="ghost-button compact-action" type="button">音源を削除</button>
-                <span id="audioFileName" class="audio-file-name">未選択</span>
-              </div>
-
               <label>
                 タグ
-                <input id="tags" placeholder="city pop, syncopation, chorus lift" />
+                <input id="tags" list="tagSuggestionsList" placeholder="city pop, syncopation, chorus lift" />
               </label>
+              <datalist id="tagSuggestionsList"></datalist>
+              <div id="tagQuickList" class="tag-suggestions" aria-label="タグ候補"></div>
 
               <fieldset class="section-fields">
                 <legend>イントロ</legend>
@@ -278,6 +295,32 @@
           </div>
         </section>
 
+        <section id="tagMode" class="table-panel tag-manager-panel is-hidden" aria-label="タグ整理">
+          <div class="tag-manager-header">
+            <div>
+              <h3>タグ整理</h3>
+              <p>タグ名の変更、統合、不要なタグの削除ができます。</p>
+            </div>
+          </div>
+          <div class="tag-manager-body">
+            <div id="tagManagerList" class="tag-manager-list"></div>
+            <div class="tag-edit-panel">
+              <label>
+                変更するタグ
+                <select id="tagManageSelect"></select>
+              </label>
+              <label>
+                新しいタグ名
+                <input id="tagRenameInput" placeholder="例: city pop" />
+              </label>
+              <div class="tag-edit-actions">
+                <button id="renameTagButton" class="primary-button" type="button">変更・統合</button>
+                <button id="deleteTagButton" class="ghost-button danger" type="button">タグを外す</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="capoMode" class="table-panel is-hidden" aria-label="早見表">
           <div class="reference-header">
             <div>
@@ -310,6 +353,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="./supabase-config.js"></script>
-    <script src="./app.js?v=20260531-audio-player"></script>
+    <script src="./app.js?v=20260607-remove-audio-backup"></script>
   </body>
 </html>

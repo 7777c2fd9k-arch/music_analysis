@@ -1,7 +1,5 @@
 const storageKey = "music-analysis-notes-v2";
 const cloudTableName = "music_analysis_notes";
-const audioDbName = "music-analysis-audio";
-const audioStoreName = "audio-files";
 
 function createId() {
   if (window.crypto && typeof window.crypto.randomUUID === "function") {
@@ -22,8 +20,6 @@ const sampleEntries = [
     bpm: "92",
     songKey: "E major",
     trackUrl: "",
-    audioName: "",
-    audioType: "",
     tags: ["dub", "minimal"],
     favorite: true,
     introKey: "",
@@ -48,6 +44,10 @@ const state = {
   selectedId: null,
   filter: "all",
   tagFilter: "",
+  keyFilter: "",
+  chordFilter: "",
+  bpmMin: "",
+  bpmMax: "",
   query: "",
   view: "detail",
   sort: "songKey",
@@ -83,9 +83,15 @@ const analysisTable = document.querySelector(".analysis-table");
 const tableZoom = document.querySelector("#tableZoom");
 const zoomValue = document.querySelector("#zoomValue");
 const tagFilterSelect = document.querySelector("#tagFilterSelect");
-const audioFileInput = document.querySelector("#audioFile");
-const audioFileName = document.querySelector("#audioFileName");
-const removeAudioButton = document.querySelector("#removeAudioButton");
+const keyFilterInput = document.querySelector("#keyFilterInput");
+const chordFilterInput = document.querySelector("#chordFilterInput");
+const bpmMinInput = document.querySelector("#bpmMinInput");
+const bpmMaxInput = document.querySelector("#bpmMaxInput");
+const tagSuggestionsList = document.querySelector("#tagSuggestionsList");
+const tagQuickList = document.querySelector("#tagQuickList");
+const tagManagerList = document.querySelector("#tagManagerList");
+const tagManageSelect = document.querySelector("#tagManageSelect");
+const tagRenameInput = document.querySelector("#tagRenameInput");
 const syncStatus = document.querySelector("#syncStatus");
 const syncLoginControls = document.querySelector("#syncLoginControls");
 const syncUserControls = document.querySelector("#syncUserControls");
@@ -102,8 +108,6 @@ let currentUser = null;
 let cloudSaveTimer = null;
 let entrySaveTimer = null;
 let isCloudReady = false;
-let audioDbPromise = null;
-let currentAudioUrl = "";
 
 function loadEntries() {
   const current = localStorage.getItem(storageKey);
@@ -136,8 +140,6 @@ function convertLegacyEntry(entry) {
     bpm: entry.bpm || "",
     songKey: entry.songKey || entry.keyMode || "",
     trackUrl: entry.trackUrl || "",
-    audioName: entry.audioName || "",
-    audioType: entry.audioType || "",
     tags: Array.isArray(entry.tags) ? entry.tags : [],
     favorite: Boolean(entry.favorite),
     introKey: entry.introKey || "",
@@ -162,58 +164,20 @@ function persist() {
   queueCloudSave();
 }
 
+function createBackupPayload() {
+  return {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    entries: state.entries,
+  };
+}
+
 function getSupabaseConfig() {
   const config = window.MUSIC_ANALYSIS_SUPABASE || {};
   return {
     url: String(config.url || "").trim(),
     anonKey: String(config.anonKey || "").trim(),
   };
-}
-
-function openAudioDb() {
-  if (audioDbPromise) return audioDbPromise;
-  audioDbPromise = new Promise((resolve, reject) => {
-    if (!window.indexedDB) {
-      reject(new Error("このブラウザでは音源保存に対応していません。"));
-      return;
-    }
-    const request = window.indexedDB.open(audioDbName, 1);
-    request.onupgradeneeded = () => {
-      request.result.createObjectStore(audioStoreName);
-    };
-    request.onsuccess = () => resolve(request.result);
-    request.onerror = () => reject(request.error);
-  });
-  return audioDbPromise;
-}
-
-async function putAudioFile(entryId, file) {
-  const db = await openAudioDb();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(audioStoreName, "readwrite");
-    tx.objectStore(audioStoreName).put(file, entryId);
-    tx.oncomplete = resolve;
-    tx.onerror = () => reject(tx.error);
-  });
-}
-
-async function getAudioFile(entryId) {
-  const db = await openAudioDb();
-  return new Promise((resolve, reject) => {
-    const request = db.transaction(audioStoreName, "readonly").objectStore(audioStoreName).get(entryId);
-    request.onsuccess = () => resolve(request.result || null);
-    request.onerror = () => reject(request.error);
-  });
-}
-
-async function deleteAudioFile(entryId) {
-  const db = await openAudioDb();
-  return new Promise((resolve, reject) => {
-    const tx = db.transaction(audioStoreName, "readwrite");
-    tx.objectStore(audioStoreName).delete(entryId);
-    tx.oncomplete = resolve;
-    tx.onerror = () => reject(tx.error);
-  });
 }
 
 function getAuthRedirectUrl() {
@@ -335,48 +299,6 @@ async function signOutCloud() {
   updateSyncUi();
 }
 
-async function attachAudioFile(event) {
-  const [file] = event.target.files;
-  if (!file) return;
-  if (!file.type.startsWith("audio/") && !file.name.toLowerCase().endsWith(".mp3")) {
-    alert("音声ファイルを選んでください。");
-    event.target.value = "";
-    return;
-  }
-
-  window.clearTimeout(entrySaveTimer);
-  saveCurrentEntry(false);
-  const entry = getSelectedEntry();
-  if (!entry) return;
-
-  try {
-    await putAudioFile(entry.id, file);
-    entry.audioName = file.name;
-    entry.audioType = file.type || "audio/mpeg";
-    entry.updatedAt = new Date().toISOString();
-    persist();
-    render();
-  } catch (error) {
-    alert(error && error.message ? error.message : "音源を保存できませんでした。");
-  }
-}
-
-async function removeAudioFile() {
-  const entry = getSelectedEntry();
-  if (!entry || !entry.audioName) return;
-  if (!confirm("この曲の音源ファイルを削除しますか？")) return;
-  try {
-    await deleteAudioFile(entry.id);
-  } catch {
-    // Metadata is still cleared so the screen does not keep showing a broken player.
-  }
-  entry.audioName = "";
-  entry.audioType = "";
-  entry.updatedAt = new Date().toISOString();
-  persist();
-  render();
-}
-
 function queueCloudSave() {
   if (!supabaseClient || !currentUser) return;
   window.clearTimeout(cloudSaveTimer);
@@ -442,12 +364,57 @@ function normalizeTags(value) {
     .filter(Boolean);
 }
 
+function appendTagToForm(tag) {
+  const input = document.querySelector("#tags");
+  const tags = normalizeTags(input.value);
+  if (!tags.includes(tag)) tags.push(tag);
+  input.value = tags.join(", ");
+  drawSongMap(readForm());
+  queueEntrySave();
+}
+
+function renameSelectedTag() {
+  const from = tagManageSelect.value;
+  const to = tagRenameInput.value.trim();
+  if (!from || !to) {
+    alert("変更するタグと新しいタグ名を入力してください。");
+    return;
+  }
+  state.entries = state.entries.map((entry) => ({
+    ...entry,
+    tags: [...new Set((entry.tags || []).map((tag) => (tag === from ? to : tag)))],
+    updatedAt: (entry.tags || []).includes(from) ? new Date().toISOString() : entry.updatedAt,
+  }));
+  state.tagFilter = state.tagFilter === from ? to : state.tagFilter;
+  tagRenameInput.value = "";
+  persist();
+  render();
+}
+
+function deleteSelectedTag() {
+  const tag = tagManageSelect.value;
+  if (!tag) return;
+  if (!confirm(`「${tag}」をすべての曲から外しますか？`)) return;
+  state.entries = state.entries.map((entry) => ({
+    ...entry,
+    tags: (entry.tags || []).filter((item) => item !== tag),
+    updatedAt: (entry.tags || []).includes(tag) ? new Date().toISOString() : entry.updatedAt,
+  }));
+  if (state.tagFilter === tag) state.tagFilter = "";
+  persist();
+  render();
+}
+
 function getSelectedEntry() {
   return state.entries.find((entry) => entry.id === state.selectedId) || state.entries[0] || null;
 }
 
 function filteredEntries() {
   const query = state.query.trim().toLowerCase();
+  const keyQuery = state.keyFilter.trim().toLowerCase();
+  const chordQuery = normalizeSearchText(state.chordFilter);
+  const minBpm = readOptionalNumber(state.bpmMin);
+  const maxBpm = readOptionalNumber(state.bpmMax);
   const now = Date.now();
   return state.entries
     .filter((entry) => {
@@ -457,6 +424,11 @@ function filteredEntries() {
         if ((now - updated) / 86400000 > 14) return false;
       }
       if (state.tagFilter && !(entry.tags || []).includes(state.tagFilter)) return false;
+      if (keyQuery && ![entry.songKey, entry.introKey, entry.verseAKey, entry.verseBKey, entry.chorusKey].join(" ").toLowerCase().includes(keyQuery)) return false;
+      const bpm = Number.parseFloat(String(entry.bpm || "").replace(/[^\d.]/g, ""));
+      if (Number.isFinite(minBpm) && (!Number.isFinite(bpm) || bpm < minBpm)) return false;
+      if (Number.isFinite(maxBpm) && (!Number.isFinite(bpm) || bpm > maxBpm)) return false;
+      if (chordQuery && !normalizeSearchText([entry.introChords, entry.verseAChords, entry.verseBChords, entry.chorusChords].join(" ")).includes(chordQuery)) return false;
       if (!query) return true;
       return [
         entry.title,
@@ -485,6 +457,16 @@ function filteredEntries() {
     });
 }
 
+function normalizeSearchText(value) {
+  return String(value || "").toLowerCase().replace(/\s+/g, " ").trim();
+}
+
+function readOptionalNumber(value) {
+  if (String(value || "").trim() === "") return Number.NaN;
+  const number = Number.parseFloat(String(value).replace(/[^\d.]/g, ""));
+  return Number.isFinite(number) ? number : Number.NaN;
+}
+
 function sortedEntries(entries) {
   return [...entries].sort((a, b) => {
     if (state.sort === "bpm") return readNumber(a.bpm) - readNumber(b.bpm);
@@ -507,6 +489,8 @@ function render() {
   const selected = getSelectedEntry();
   renderStats();
   renderTagFilter();
+  renderTagHelpers();
+  renderTagManager();
   renderList();
   renderTable();
   fillForm(selected);
@@ -522,7 +506,7 @@ function renderStats() {
 }
 
 function renderTagFilter() {
-  const tags = [...new Set(state.entries.flatMap((entry) => entry.tags || []))].sort((a, b) => a.localeCompare(b, "ja"));
+  const tags = allTags();
   if (state.tagFilter && !tags.includes(state.tagFilter)) state.tagFilter = "";
   tagFilterSelect.innerHTML = '<option value="">すべてのタグ</option>';
   tags.forEach((tag) => {
@@ -532,6 +516,40 @@ function renderTagFilter() {
     option.selected = tag === state.tagFilter;
     tagFilterSelect.append(option);
   });
+}
+
+function allTags() {
+  return [...new Set(state.entries.flatMap((entry) => entry.tags || []))].sort((a, b) => a.localeCompare(b, "ja"));
+}
+
+function tagCounts() {
+  return allTags().map((tag) => ({
+    tag,
+    count: state.entries.filter((entry) => (entry.tags || []).includes(tag)).length,
+  }));
+}
+
+function renderTagHelpers() {
+  const tags = tagCounts();
+  tagSuggestionsList.innerHTML = tags.map(({ tag }) => `<option value="${escapeHtml(tag)}"></option>`).join("");
+  tagQuickList.innerHTML = tags.length
+    ? tags
+        .slice(0, 14)
+        .map(({ tag, count }) => `<button class="tag-suggestion" type="button" data-tag-add="${escapeHtml(tag)}">${escapeHtml(tag)}<span>${count}</span></button>`)
+        .join("")
+    : '<span class="muted-cell">タグ候補はまだありません。</span>';
+}
+
+function renderTagManager() {
+  const tags = tagCounts();
+  const selectedTag = tagManageSelect.value && tags.some(({ tag }) => tag === tagManageSelect.value) ? tagManageSelect.value : tags[0] ? tags[0].tag : "";
+  tagManageSelect.innerHTML = tags.length
+    ? tags.map(({ tag }) => `<option value="${escapeHtml(tag)}"${tag === selectedTag ? " selected" : ""}>${escapeHtml(tag)}</option>`).join("")
+    : '<option value="">タグなし</option>';
+  if (!tagRenameInput.value && selectedTag) tagRenameInput.value = selectedTag;
+  tagManagerList.innerHTML = tags.length
+    ? tags.map(({ tag, count }) => `<button class="tag-manager-item" type="button" data-tag-filter="${escapeHtml(tag)}"><span>${escapeHtml(tag)}</span><small>${count}曲</small></button>`).join("")
+    : '<div class="empty-state">整理できるタグがまだありません。</div>';
 }
 
 function renderList() {
@@ -645,13 +663,15 @@ function formatUrlCell(value) {
 function renderViewMode() {
   document.querySelector("#detailMode").classList.toggle("is-hidden", state.view !== "detail");
   document.querySelector("#tableMode").classList.toggle("is-hidden", state.view !== "table");
+  document.querySelector("#tagMode").classList.toggle("is-hidden", state.view !== "tags");
   document.querySelector("#capoMode").classList.toggle("is-hidden", state.view !== "capo");
   document.querySelector(".table-tools").classList.toggle("is-hidden", state.view !== "table");
   document.querySelectorAll("[data-view]").forEach((button) => {
     button.classList.toggle("is-active", button.dataset.view === state.view);
   });
   const selected = getSelectedEntry();
-  document.querySelector("#workspaceTitle").textContent = state.view === "table" ? "分析表" : state.view === "capo" ? "早見表" : selected && selected.title ? selected.title : "分析を選ぶ";
+  document.querySelector("#workspaceTitle").textContent =
+    state.view === "table" ? "分析表" : state.view === "tags" ? "タグ整理" : state.view === "capo" ? "早見表" : selected && selected.title ? selected.title : "分析を選ぶ";
 }
 
 function changeFilter(button) {
@@ -668,6 +688,28 @@ function changeView(view) {
 
 function changeSort(value) {
   state.sort = value;
+  renderList();
+  renderTable();
+}
+
+function updateAdvancedFilters() {
+  state.keyFilter = keyFilterInput.value;
+  state.chordFilter = chordFilterInput.value;
+  state.bpmMin = bpmMinInput.value;
+  state.bpmMax = bpmMaxInput.value;
+  renderList();
+  renderTable();
+}
+
+function clearAdvancedFilters() {
+  keyFilterInput.value = "";
+  chordFilterInput.value = "";
+  bpmMinInput.value = "";
+  bpmMaxInput.value = "";
+  state.keyFilter = "";
+  state.chordFilter = "";
+  state.bpmMin = "";
+  state.bpmMax = "";
   renderList();
   renderTable();
 }
@@ -745,13 +787,15 @@ function runTouchAction(event) {
   const target = event.target;
   const filterButton = closestElement(target, "[data-filter]");
   const viewButton = closestElement(target, "[data-view]");
+  const addTagButton = closestElement(target, "[data-tag-add]");
+  const manageTagButton = closestElement(target, "[data-tag-filter]");
   const tableEditButton = closestElement(target, "[data-edit]");
   const entryButton = closestElement(target, ".entry-card[data-id]");
   const ordinaryButton = closestElement(target, "button");
   const importLabel = closestElement(target, "#importInput, .import-action");
 
   if (importLabel) return;
-  if (!filterButton && !viewButton && !tableEditButton && !entryButton && !ordinaryButton) return;
+  if (!filterButton && !viewButton && !addTagButton && !manageTagButton && !tableEditButton && !entryButton && !ordinaryButton) return;
 
   event.preventDefault();
   lastTouchActionAt = Date.now();
@@ -763,6 +807,18 @@ function runTouchAction(event) {
 
   if (viewButton) {
     changeView(viewButton.dataset.view);
+    return;
+  }
+
+  if (addTagButton) {
+    appendTagToForm(addTagButton.dataset.tagAdd);
+    return;
+  }
+
+  if (manageTagButton) {
+    state.tagFilter = manageTagButton.dataset.tagFilter;
+    state.view = "table";
+    render();
     return;
   }
 
@@ -783,8 +839,11 @@ function runTouchAction(event) {
   if (ordinaryButton.id === "newEntryButton") createEntry();
   if (ordinaryButton.id === "deleteButton") deleteSelected();
   if (ordinaryButton.id === "tableCsvExportButton") exportCsv();
+  if (ordinaryButton.id === "fullCsvExportButton") exportCsv(false);
   if (ordinaryButton.id === "exportButton") exportEntries();
-  if (ordinaryButton.id === "removeAudioButton") removeAudioFile();
+  if (ordinaryButton.id === "clearAdvancedFiltersButton") clearAdvancedFilters();
+  if (ordinaryButton.id === "renameTagButton") renameSelectedTag();
+  if (ordinaryButton.id === "deleteTagButton") deleteSelectedTag();
   if (ordinaryButton.id === "googleLoginButton") signInWithGoogle();
   if (ordinaryButton.id === "syncLoginButton") sendLoginLink();
   if (ordinaryButton.id === "cloudSaveButton") saveCloudEntries(true);
@@ -806,9 +865,6 @@ function fillForm(entry) {
   document.querySelector("#entryId").value = entry && entry.id ? entry.id : "";
   document.querySelector("#favorite").checked = Boolean(entry && entry.favorite);
   document.querySelector("#deleteButton").disabled = !entry;
-  audioFileInput.value = "";
-  audioFileName.textContent = entry && entry.audioName ? entry.audioName : "未選択";
-  removeAudioButton.disabled = !entry || !entry.audioName;
 
   fields.forEach((field) => {
     const input = document.querySelector(`#${field}`);
@@ -853,39 +909,8 @@ function renderDetail(entry) {
       </div>
     </div>
     <div class="tag-list">${tags}</div>
-    ${renderAudioBlock(entry)}
     ${sections || notes ? `${sections}${notes}` : '<div class="empty-state">まだ詳細メモがありません。</div>'}
   `;
-  hydrateAudioPlayer(entry);
-}
-
-function renderAudioBlock(entry) {
-  if (!entry.audioName) return "";
-  return `
-    <div class="audio-player-card">
-      <strong>音源</strong>
-      <span>${escapeHtml(entry.audioName)}</span>
-      <div id="audioPlayerSlot" class="audio-player-slot">読み込み中</div>
-    </div>
-  `;
-}
-
-async function hydrateAudioPlayer(entry) {
-  if (!entry || !entry.audioName) return;
-  const slot = document.querySelector("#audioPlayerSlot");
-  if (!slot) return;
-  try {
-    const file = await getAudioFile(entry.id);
-    if (!file) {
-      slot.innerHTML = '<span class="muted-cell">この端末には音源ファイルがありません。</span>';
-      return;
-    }
-    if (currentAudioUrl) URL.revokeObjectURL(currentAudioUrl);
-    currentAudioUrl = URL.createObjectURL(file);
-    slot.innerHTML = `<audio controls preload="metadata" src="${currentAudioUrl}"></audio>`;
-  } catch {
-    slot.innerHTML = '<span class="muted-cell">音源を読み込めませんでした。</span>';
-  }
 }
 
 function renderSectionDetail(entry, section) {
@@ -953,8 +978,6 @@ function readForm() {
     bpm: document.querySelector("#bpm").value.trim(),
     songKey: document.querySelector("#songKey").value.trim(),
     trackUrl: document.querySelector("#trackUrl").value.trim(),
-    audioName: getSelectedEntry() && getSelectedEntry().id === document.querySelector("#entryId").value ? getSelectedEntry().audioName || "" : "",
-    audioType: getSelectedEntry() && getSelectedEntry().id === document.querySelector("#entryId").value ? getSelectedEntry().audioType || "" : "",
     tags: normalizeTags(document.querySelector("#tags").value),
     favorite: document.querySelector("#favorite").checked,
     introKey: document.querySelector("#introKey").value.trim(),
@@ -1008,8 +1031,6 @@ function createEntry() {
     bpm: "",
     songKey: "",
     trackUrl: "",
-    audioName: "",
-    audioType: "",
     tags: [],
     favorite: false,
     introKey: "",
@@ -1039,7 +1060,6 @@ function deleteSelected() {
   if (!state.selectedId) return;
   const entry = getSelectedEntry();
   if (!confirm(`${entry && entry.title ? entry.title : "この分析"}を削除しますか？`)) return;
-  deleteAudioFile(state.selectedId).catch(() => {});
   state.entries = state.entries.filter((item) => item.id !== state.selectedId);
   state.selectedId = state.entries[0] ? state.entries[0].id : null;
   persist();
@@ -1047,7 +1067,7 @@ function deleteSelected() {
 }
 
 function exportEntries() {
-  const blob = new Blob([JSON.stringify(state.entries, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(createBackupPayload(), null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
@@ -1056,7 +1076,7 @@ function exportEntries() {
   URL.revokeObjectURL(url);
 }
 
-function exportCsv() {
+function exportCsv(useVisibleRows = true) {
   const headers = [
     "曲名",
     "アーティスト",
@@ -1080,10 +1100,12 @@ function exportCsv() {
     "重要",
     "更新日",
   ];
-  const visibleIds = [...tableBody.querySelectorAll("tr[data-id]")].map((row) => row.dataset.id);
-  const visibleEntries = visibleIds.length
+  const visibleIds = useVisibleRows ? [...tableBody.querySelectorAll("tr[data-id]")].map((row) => row.dataset.id) : [];
+  const visibleEntries = useVisibleRows && visibleIds.length
     ? visibleIds.map((id) => state.entries.find((entry) => entry.id === id)).filter(Boolean)
-    : sortedEntries(filteredEntries());
+    : useVisibleRows
+      ? sortedEntries(filteredEntries())
+      : sortedEntries(state.entries);
   const rows = visibleEntries.map((entry) => [
     entry.title || "",
     entry.artist || "",
@@ -1126,12 +1148,13 @@ async function importEntries(event) {
   const [file] = event.target.files;
   if (!file) return;
   const imported = JSON.parse(await file.text());
-  if (!Array.isArray(imported)) {
+  const importedEntries = Array.isArray(imported) ? imported : Array.isArray(imported.entries) ? imported.entries : null;
+  if (!importedEntries) {
     alert("読み込める形式ではありません。");
     return;
   }
   const existingIds = new Set(state.entries.map((entry) => entry.id));
-  const merged = imported.map((entry) => {
+  const merged = importedEntries.map((entry) => {
     const converted = convertLegacyEntry(entry);
     return {
       ...converted,
@@ -1188,10 +1211,41 @@ document.querySelector("#sortSelect").addEventListener("change", (event) => {
   changeSort(event.target.value);
 });
 
+[keyFilterInput, chordFilterInput, bpmMinInput, bpmMaxInput].forEach((input) => {
+  input.addEventListener("input", updateAdvancedFilters);
+});
+document.querySelector("#clearAdvancedFiltersButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) clearAdvancedFilters();
+});
+
 tagFilterSelect.addEventListener("change", (event) => {
   state.tagFilter = event.target.value;
   renderList();
   renderTable();
+});
+
+tagQuickList.addEventListener("click", (event) => {
+  const button = closestElement(event.target, "[data-tag-add]");
+  if (!button || recentlyHandledTouch()) return;
+  appendTagToForm(button.dataset.tagAdd);
+});
+
+tagManagerList.addEventListener("click", (event) => {
+  const button = closestElement(event.target, "[data-tag-filter]");
+  if (!button || recentlyHandledTouch()) return;
+  state.tagFilter = button.dataset.tagFilter;
+  state.view = "table";
+  render();
+});
+
+document.querySelector("#renameTagButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) renameSelectedTag();
+});
+document.querySelector("#deleteTagButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) deleteSelectedTag();
+});
+tagManageSelect.addEventListener("change", () => {
+  tagRenameInput.value = tagManageSelect.value || "";
 });
 
 tableZoom.addEventListener("input", (event) => setTableZoom(event.target.value));
@@ -1237,14 +1291,13 @@ document.querySelector("#deleteButton").addEventListener("click", () => {
 document.querySelector("#tableCsvExportButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) exportCsv();
 });
+document.querySelector("#fullCsvExportButton").addEventListener("click", () => {
+  if (!recentlyHandledTouch()) exportCsv(false);
+});
 document.querySelector("#exportButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) exportEntries();
 });
 document.querySelector("#importInput").addEventListener("change", importEntries);
-audioFileInput.addEventListener("change", attachAudioFile);
-removeAudioButton.addEventListener("click", () => {
-  if (!recentlyHandledTouch()) removeAudioFile();
-});
 document.querySelector("#syncLoginButton").addEventListener("click", () => {
   if (!recentlyHandledTouch()) sendLoginLink();
 });
